@@ -9,6 +9,12 @@ module Vertigo
         g.assets false
         g.helper false
       end
+
+      config.to_prepare do
+        if Vertigo::Rtm.user_class
+          Vertigo::Rtm.user_class.send(:include, Vertigo::Rtm::UserExtender)
+        end
+      end
     end
   end
 end
