@@ -11,11 +11,11 @@ module Vertigo
       validates :name, uniqueness: true, presence: true
 
       def group?
-        false
+        self.class.name.demodulize == 'Group'
       end
 
       def channel?
-        false
+        self.class.name.demodulize == 'Channel'
       end
     end
   end
