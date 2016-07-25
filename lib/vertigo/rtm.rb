@@ -1,4 +1,6 @@
 require 'vertigo/rtm/engine'
+require 'cancancan'
+require 'active_model_serializers'
 require 'carrierwave'
 
 module Vertigo
