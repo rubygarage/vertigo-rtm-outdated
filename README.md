@@ -21,41 +21,71 @@ Or install it yourself as:
 $ gem install vertigo-rtm
 ```
 
+## Style Guide
+
+* [JSON API](http://jsonapi.org/)
+* [Ruby](https://github.com/bbatsov/ruby-style-guide)
+* [Rails](https://github.com/bbatsov/rails-style-guide)
+
 ## Resources
 
 ### User
 ```js
 {
-  "id": 1,
-  "name": "jon.snow",
-  "status": "online"
+  "data": {
+    "id": 1,
+    "type": "users",
+    "attributes": {
+      "name": "jon.snow",
+      "status": "online"
+    }
+    "links": {
+      "self": "http://example.com/users/1",
+    }
+  }
 }
 ```
 The `status` field has the following available values: `online`, `away`, `dnd`.
 
-### Preference
+### Preference (user & conversation  preferences)
 ```js
 {
-  "highlightWords": "hi, hello",
-  "pushEverything": false,
-  "muted": false
+  "id": 1,
+  "type": "preferences",
+  "attributes": {
+    "highlightWords": "hi, hello",
+    "pushEverything": false,
+    "muted": false,
+    "userId": 1 or "conversationId": 1
+  },
+  "links": {
+    "self": "http://example.com/preferences/1"
+  }
 }
 ```
 
 ### Channel
 ```js
 {
-  "id": 1,
-  "name": "general",
-  "state": "unarchive",
-  "creatorId": 1,
-  "memberIds": [1, 2, 3],
-  "membersCount": 3,
-  "messagesCount": 100,
-  "unreadCount": 20,
-  "lastReadAt": "2016-07-18 16:26:36",
-  "createdAt": "2016-07-18 16:26:36",
-  "updatedAt": "2016-07-18 16:26:36"
+  "data":{
+    "id": 1,
+    "type": "channels"
+    "attributes": {
+      "name": "general",
+      "state": "unarchive",
+      "creatorId": 1,
+      "memberIds": [1, 2, 3],
+      "membersCount": 3,
+      "messagesCount": 100,
+      "unreadCount": 20,
+      "lastReadAt": "2016-07-18 16:26:36",
+      "createdAt": "2016-07-18 16:26:36",
+      "updatedAt": "2016-07-18 16:26:36"
+    },
+    "links": {
+      "self": "http://example.com/channels/1"
+    }
+  }
 }
 ```
 The `state` field has the following available values: `unarchive`, `archive`.
@@ -63,29 +93,39 @@ The `state` field has the following available values: `unarchive`, `archive`.
 ### Group
 ```js
 {
-  "id": 1,
-  "name": "secretplans",
-  "state": "unarchive",
-  "creatorId": 1,
-  "memberIds": [1, 2],
-  "membersCount": 2,
-  "messagesCount": 20,
-  "unreadCount": 0,
-  "lastReadAt": "2016-07-18 16:26:36",
-  "createdAt": "2016-07-18 16:26:36",
-  "updatedAt": "2016-07-18 16:26:36"
+  "data":{
+    "id": 1,
+    "type": "groups",
+    "attributes":{
+      "name": "john.show-david-bowie",
+      "state": "unarchive",
+      "creatorId": 1,
+      "memberIds": [1, 2],
+      "membersCount": 2,
+      "messagesCount": 20,
+      "unreadCount": 0,
+      "lastReadAt": "2016-07-18 16:26:36",
+      "createdAt": "2016-07-18 16:26:36",
+      "updatedAt": "2016-07-18 16:26:36"
+    }
+    "links": {
+      "self": "http://example.com/groups/1"
+    }
+  }
 }
 ```
 The `state` field has the following available values: `unarchive`, `archive`.
 
-### File
+### Attachment
 ```js
 {
   "id": 1,
+  "type": "attachments",
   "name": "file.png",
   "size": 12345,
   "contentType": "image/png",
   "creatorId": 1,
+  "messageId": 1,
   "url": "http://...",
   "thumbnails": [
     "small": "http://...",
@@ -93,414 +133,249 @@ The `state` field has the following available values: `unarchive`, `archive`.
     "large": "http://..."
   ],
   "createdAt": "2016-07-18 16:26:36",
-  "updatedAt": "2016-07-18 16:26:36"
+  "updatedAt": "2016-07-18 16:26:36",
+  "links": {
+    "self": "http://example.com/attachments/1",
+    "related": {
+      ...
+    }
+  }
 }
 ```
 
 ### Message
 ```js
 {
-  "text": "Hello",
-  "creatorId": 1,
-  "attachments": [Files Collection],
-  "createdAt": "2016-07-18 16:26:36",
-  "updatedAt": "2016-07-18 16:26:36"
+  "id": 1,
+  "type": "messages",
+  "attributes": {
+    "text": "Hello",
+    "creatorId": 1,
+    "conversationId": 2,
+    "attachments": [Attachments Collection],
+    "createdAt": "2016-07-18 16:26:36",
+    "updatedAt": "2016-07-18 16:26:36"
+  },
+  "links": {
+    "self": "http://example.com/messages/1",
+    "related": {
+      ...
+    }
+  }
 }
 ```
-
-### Meta
-```js
-{
-  "totalCount": 50,
-  "perPage": 10
-}
-```
-The default value for `perPage` is 100.
-
 
 ## Endpoints
 
-GET rtm/users
+#### GET /users
 
 + Parameters
-    + q: `snow` (string)
-    + userIds: `[1, 2, 3]` (array)
+  + q: `snow` (string)
+  + userIds: `[1, 2, 3]` (array)
 
-+ HTTP Response
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: User (array)
 
-  ```js
-  {
-    "ok": true,
-    "data": [Users Collection]
-  }
-  ```
-
-PATCH/PUT rtm/users/:id
+####  PATCH/PUT /users/:id
 
 + Parameters
   + status: `dnd` (string)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [User]
-  }
-  ```
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: User (object)
 
 + WebSocket Response
+  + Attributes
+    + data: User (object)
 
-  ```js
-  {
-    "data": [User]
-  }
-  ```
+#### GET /users/:id/preference
 
-GET rtm/users/:id/preference
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Preference (object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Preference]
-  }
-  ```
-
-PATCH/PUT rtm/users/:id/preference
+#### PATCH/PUT /users/:id/preference
 
 + Parameters
   + highlightWords: `hello` (string)
   + pushEverything: `false` (boolean)
   + muted: `false` (boolean)
 
-+ HTTP Response
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Preference (object)
 
-  ```js
-  {
-    "ok": true,
-    "data": [Preference]
-  }
-  ```
+#### GET /conversations
 
-GET rtm/conversations
++ HTTP Response 200 (application/json)
+  + Attributes (object)
+    + currentUser: User (object)
+    + channels: Channel (array)
+    + groups: Group (array)
+    + users: User (array)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "currentUser": [User],
-    "channels": [Channels Collection],
-    "groups": [Groups Collection],
-    "users": [Users Collection]
-  }
-  ```
-
-POST rtm/channels
+#### POST /channels
 
 + Parameters
   + name: `fun` (string)
   + memberIds: `[2, 3]` (array)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Channel]
-  }
-  ```
++ HTTP Response 201 (application/json)
+  + Attributes
+    + data: Channel (object)
 
 + WebSocket Response
+  + Attributes
+    + data: Channel (object)
 
-  ```js
-  {
-    "data": [Channel]
-  }
-  ```
+#### GET /channels/:id
 
-GET rtm/channels/:id
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Channel (object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Channel]
-  }
-  ```
-
-PATCH/PUT rtm/channels/:id
+#### PATCH/PUT /channels/:id
 
 + Parameters
   + name: `new name` (string)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Channel]
-  }
-  ```
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Channel (object)
 
 + WebSocket Response
+  + Attributes
+    + data: Channel (object)
 
-  ```js
-  {
-    "data": [Channel]
-  }
-  ```
+#### DELETE /channels/:id
 
-DELETE rtm/channels/:id
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ HTTP Response 204 (application/json)
 
 + WebSocket Response
+  + Attributes
+    + data: id (integer)
 
-  ```js
-  {
-    "data": {
-      "id": 1
-    }
-  }
-  ```
+#### PATCH/PUT /channels/:id/leave
 
-PATCH/PUT rtm/channels/:id/leave
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ HTTP Response 200 (application/json)
 
 + WebSocket Response
+  + Attributes
+    + data: Channel (object)
 
-  ```js
-  {
-    "ok": true,
-    "data": [Channel]
-  }
-  ```
-
-PATCH/PUT rtm/channels/:id/kick
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
-
-+ WebSocket Response
-
-  ```js
-  {
-    "data": [Channel]
-  }
-  ```
-
-PUT/PATCH rtm/channels/:id/invite
+#### PATCH/PUT /channels/:id/kick
 
 + Parameters
-  + userId: `1` (integer)
+  + memberId: `1` (integer)
 
-+ HTTP Response
++ HTTP Response 200 (application/json)
 
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ WebSocket Response
+  + Attributes
+    + data: Channel (object)
 
-  or
+#### PUT/PATCH /channels/:id/invite
 
-  ```js
-  {
-    "data": [Channel]
-  }
-  ```
++ Parameters
+  + memberId: `1` (integer)
 
-POST rtm/groups
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Channel (object)
+
+#### POST /groups
 
 + Parameters
   + memberIds: `[2, 3]` (array)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Group]
-  }
-  ```
++ HTTP Response 201 (application/json)
+  + Attributes
+    + data: Group (object)
 
 + WebSocket Response
+  + Attributes
+    + data: Group (object)
 
-  ```js
-  {
-    "data": [Group]
-  }
-  ```
+#### GET /groups/:id
 
-GET rtm/groups/:id
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Group (object)
 
-+ HTTP Response
+#### DELETE /groups/:id
 
-  ```js
-  {
-    "ok": true,
-    "data": [Group]
-  }
-  ```
-
-DELETE rtm/groups/:id
-
-  + HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ HTTP Response 204 (application/json)
 
 + WebSocket Response
+  + Attributes
+    + id (integer)
 
-  ```js
-  {
-    "data": {
-      "id": 1
-    }
-  }
-  ```
+#### GET /conversations/:conversation_id/preference
 
-GET rtm/conversations/:conversation_id/preference
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Preference (object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Preference]
-  }
-  ```
-
-PATCH/PUT rtm/conversations/:conversation_id/preference
+#### PATCH/PUT /conversations/:conversation_id/preference
 
 + Parameters
   + highlightWords: `hello` (string)
   + pushEverything: `false` (boolean)
   + muted: `false` (boolean)
 
-+ HTTP Response
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Preference (object)
 
-  ```js
-  {
-    "ok": true,
-    "data": [Preference]
-  }
-  ```
+#### GET /conversations/:conversation_id/messages
 
-GET rtm/conversations/:conversation_id/messages
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Message (array)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Messages Collection],
-    "meta": [Meta]
-  }
-  ```
-
-POST rtm/conversations/:conversation_id/messages
+#### POST /conversations/:conversation_id/messages
 
 + Parameters
   + text: `hello` (string)
   + attachmentAttributes: `[]` (array)
     + file: `...` (file object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Message]
-  }
-  ```
++ HTTP Response 201 (application/json)
+  + Attributes
+    + data: Message (object)
 
 + WebSocket Response
+  + Attributes
+    + data: Message (object)
 
-  ```js
-  {
-    "data": [Message]
-  }
-  ```
-
-PATCH/PUT rtm/conversations/:conversation_id/messages/:id
+#### PATCH/PUT /conversations/:conversation_id/messages/:id
 
 + Parameters
   + text: `hello v2.0` (string)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Message]
-  }
-  ```
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Message (object)
 
 + WebSocket Response
+  + Attributes
+    + data: Message (object)
 
-  ```js
-  {
-    "data": [Message]
-  }
-  ```
+#### DELETE /conversations/:conversation_id/messages/:id
 
-DELETE rtm/conversations/:conversation_id/messages/:id
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ HTTP Response 204 (application/json)
 
 + WebSocket Response
+  + Attributes
+    + id (integer)
 
-  ```js
-  {
-    "data": {
-      "id": 1
-    }
-  }
-  ```
+#### GET /conversations/:conversation_id/attachments
 
-GET rtm/conversations/:conversation_id/files
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Files Collection],
-    "meta": [Meta]
-  }
-  ```
++ HTTP Response 200 (application/json)
+  + Attributes
+    + data: Attachment (array)
 
 ## Contributing
 Contribution directions go here.
