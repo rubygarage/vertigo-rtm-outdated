@@ -21,6 +21,10 @@ Or install it yourself as:
 $ gem install vertigo-rtm
 ```
 
+## Style Guide
+
+* [RESTful API](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api)
+
 ## Resources
 
 ### User
@@ -78,7 +82,7 @@ The `state` field has the following available values: `unarchive`, `archive`.
 ```
 The `state` field has the following available values: `unarchive`, `archive`.
 
-### File
+### Attachment
 ```js
 {
   "id": 1,
@@ -102,7 +106,7 @@ The `state` field has the following available values: `unarchive`, `archive`.
 {
   "text": "Hello",
   "creatorId": 1,
-  "attachments": [Files Collection],
+  "attachments": [Attachment],
   "createdAt": "2016-07-18 16:26:36",
   "updatedAt": "2016-07-18 16:26:36"
 }
@@ -120,387 +124,220 @@ The default value for `perPage` is 100.
 
 ## Endpoints
 
-GET rtm/users
+#### GET rtm/users
 
 + Parameters
-    + q: `snow` (string)
-    + userIds: `[1, 2, 3]` (array)
+  + q: `snow` (string)
+  + userIds: `[1, 2, 3]` (array)
 
-+ HTTP Response
++ HTTP Response 200 (application/json)
+  + Attributes (object)
+    + data: User (array)
+    + meta: Meta (object)
 
-  ```js
-  {
-    "ok": true,
-    "data": [Users Collection]
-  }
-  ```
-
-PATCH/PUT rtm/users/:id
+####  PATCH/PUT rtm/users/:id
 
 + Parameters
   + status: `dnd` (string)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [User]
-  }
-  ```
++ HTTP Response 200 (application/json)
+  + Attributes
+    + User (object)
 
 + WebSocket Response
+  + Attributes
+    + User (object)
 
-  ```js
-  {
-    "data": [User]
-  }
-  ```
+#### GET rtm/users/:id/preference
 
-GET rtm/users/:id/preference
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Preference (object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Preference]
-  }
-  ```
-
-PATCH/PUT rtm/users/:id/preference
+#### PATCH/PUT rtm/users/:id/preference
 
 + Parameters
   + highlightWords: `hello` (string)
   + pushEverything: `false` (boolean)
   + muted: `false` (boolean)
 
-+ HTTP Response
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Preference (object)
 
-  ```js
-  {
-    "ok": true,
-    "data": [Preference]
-  }
-  ```
+#### GET rtm/conversations
 
-GET rtm/conversations
++ HTTP Response 200 (application/json)
+  + Attributes (object)
+    + currentUser: User (object)
+    + channels: Channel (array)
+    + groups: Group (array)
+    + users: User (array)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "currentUser": [User],
-    "channels": [Channels Collection],
-    "groups": [Groups Collection],
-    "users": [Users Collection]
-  }
-  ```
-
-POST rtm/channels
+#### POST rtm/channels
 
 + Parameters
   + name: `fun` (string)
   + memberIds: `[2, 3]` (array)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Channel]
-  }
-  ```
++ HTTP Response 201 (application/json)
+  + Attributes
+    + Channel (object)
 
 + WebSocket Response
+  + Attributes
+    + Channel (object)
 
-  ```js
-  {
-    "data": [Channel]
-  }
-  ```
+#### GET rtm/channels/:id
 
-GET rtm/channels/:id
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Channel (object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Channel]
-  }
-  ```
-
-PATCH/PUT rtm/channels/:id
+#### PATCH/PUT rtm/channels/:id
 
 + Parameters
   + name: `new name` (string)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Channel]
-  }
-  ```
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Channel (object)
 
 + WebSocket Response
+  + Attributes
+    + Channel (object)
 
-  ```js
-  {
-    "data": [Channel]
-  }
-  ```
+#### DELETE rtm/channels/:id
 
-DELETE rtm/channels/:id
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ HTTP Response 204 (application/json)
 
 + WebSocket Response
+  + Attributes (object)
+    + id (integer)
 
-  ```js
-  {
-    "data": {
-      "id": 1
-    }
-  }
-  ```
+#### PATCH/PUT rtm/channels/:id/leave
 
-PATCH/PUT rtm/channels/:id/leave
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ HTTP Response 200 (application/json)
 
 + WebSocket Response
+  + Attributes
+    + Channel (object)
 
-  ```js
-  {
-    "ok": true,
-    "data": [Channel]
-  }
-  ```
-
-PATCH/PUT rtm/channels/:id/kick
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
-
-+ WebSocket Response
-
-  ```js
-  {
-    "data": [Channel]
-  }
-  ```
-
-PUT/PATCH rtm/channels/:id/invite
+#### PATCH/PUT rtm/channels/:id/kick
 
 + Parameters
-  + userId: `1` (integer)
+  + memberId: `1` (integer)
 
-+ HTTP Response
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Channel (object)
 
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ WebSocket Response
+  + Attributes
+    + Channel (object)
 
-  or
+#### PUT/PATCH rtm/channels/:id/invite
 
-  ```js
-  {
-    "data": [Channel]
-  }
-  ```
++ Parameters
+  + memberId: `1` (integer)
 
-POST rtm/groups
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Channel (object)
+
+#### POST rtm/groups
 
 + Parameters
   + memberIds: `[2, 3]` (array)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Group]
-  }
-  ```
++ HTTP Response 201 (application/json)
+  + Attributes
+    + Group (object)
 
 + WebSocket Response
+  + Attributes
+    + Group (object)
 
-  ```js
-  {
-    "data": [Group]
-  }
-  ```
+#### GET rtm/groups/:id
 
-GET rtm/groups/:id
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Group (object)
 
-+ HTTP Response
+#### DELETE rtm/groups/:id
 
-  ```js
-  {
-    "ok": true,
-    "data": [Group]
-  }
-  ```
-
-DELETE rtm/groups/:id
-
-  + HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ HTTP Response 204 (application/json)
 
 + WebSocket Response
+  + Attributes (object)
+    + id (integer)
 
-  ```js
-  {
-    "data": {
-      "id": 1
-    }
-  }
-  ```
+#### GET rtm/conversations/:conversation_id/preference
 
-GET rtm/conversations/:conversation_id/preference
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Preference (object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Preference]
-  }
-  ```
-
-PATCH/PUT rtm/conversations/:conversation_id/preference
+#### PATCH/PUT rtm/conversations/:conversation_id/preference
 
 + Parameters
   + highlightWords: `hello` (string)
   + pushEverything: `false` (boolean)
   + muted: `false` (boolean)
 
-+ HTTP Response
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Preference (object)
 
-  ```js
-  {
-    "ok": true,
-    "data": [Preference]
-  }
-  ```
+#### GET rtm/conversations/:conversation_id/messages
 
-GET rtm/conversations/:conversation_id/messages
++ HTTP Response 200 (application/json)
+  + Attributes (object)
+    + data: Message (array)
+    + meta: Meta (object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Messages Collection],
-    "meta": [Meta]
-  }
-  ```
-
-POST rtm/conversations/:conversation_id/messages
+#### POST rtm/conversations/:conversation_id/messages
 
 + Parameters
   + text: `hello` (string)
   + attachmentAttributes: `[]` (array)
     + file: `...` (file object)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Message]
-  }
-  ```
++ HTTP Response 201 (application/json)
+  + Attributes
+    + Message (object)
 
 + WebSocket Response
+  + Attributes
+    + Message (object)
 
-  ```js
-  {
-    "data": [Message]
-  }
-  ```
-
-PATCH/PUT rtm/conversations/:conversation_id/messages/:id
+#### PATCH/PUT rtm/conversations/:conversation_id/messages/:id
 
 + Parameters
   + text: `hello v2.0` (string)
 
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Message]
-  }
-  ```
++ HTTP Response 200 (application/json)
+  + Attributes
+    + Message (object)
 
 + WebSocket Response
+  + Attributes
+    + Message (object)
 
-  ```js
-  {
-    "data": [Message]
-  }
-  ```
+#### DELETE rtm/conversations/:conversation_id/messages/:id
 
-DELETE rtm/conversations/:conversation_id/messages/:id
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
++ HTTP Response 204 (application/json)
 
 + WebSocket Response
+  + Attributes
+    + id (integer)
 
-  ```js
-  {
-    "data": {
-      "id": 1
-    }
-  }
-  ```
+#### GET rtm/conversations/:conversation_id/attachments
 
-GET rtm/conversations/:conversation_id/files
-
-+ HTTP Response
-
-  ```js
-  {
-    "ok": true,
-    "data": [Files Collection],
-    "meta": [Meta]
-  }
-  ```
++ HTTP Response 200 (application/json)
+  + Attributes (object)
+    + data: Attachment (array)
+    + meta: Meta (object)
 
 ## Contributing
 Contribution directions go here.
