@@ -16,10 +16,6 @@ module Vertigo
       def vertigo_rtm_layout
         Vertigo::Rtm.layout
       end
-
-      def current_ability
-        @current_ability ||= Vertigo::Rtm::Ability.new(vertigo_rtm_current_user)
-      end
     end
   end
 end
