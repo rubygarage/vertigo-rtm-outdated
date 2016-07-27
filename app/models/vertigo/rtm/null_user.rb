@@ -8,6 +8,10 @@ module Vertigo
       def name
         'Anonymous User'
       end
+
+      def policy_class
+        Vertigo::Rtm::UserPolicy
+      end
     end
   end
 end

@@ -3,6 +3,8 @@ module Vertigo
     class ApplicationController < ::ApplicationController
       layout :vertigo_rtm_layout
 
+      include Pundit
+
       helper_method :vertigo_rtm_current_user
 
       protected
@@ -15,6 +17,10 @@ module Vertigo
 
       def vertigo_rtm_layout
         Vertigo::Rtm.layout
+      end
+
+      def pundit_user
+        vertigo_rtm_current_user
       end
     end
   end

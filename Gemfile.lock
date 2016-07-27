@@ -4,6 +4,7 @@ PATH
     vertigo-rtm (0.1.0)
       active_model_serializers (~> 0.10.0)
       carrierwave (~> 0.11.2)
+      pundit (~> 1.1)
       rails (~> 5.0.0)
 
 GEM
@@ -101,6 +102,8 @@ GEM
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
     pkg-config (1.1.7)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (2.0.1)
     rack-test (0.6.3)
       rack (>= 1.0)

@@ -8,6 +8,7 @@ require 'factory_girl_rails'
 require 'faker'
 require 'shoulda-matchers'
 require 'database_cleaner'
+require 'pundit/rspec'
 
 Rails.backtrace_cleaner.remove_silencers!
 

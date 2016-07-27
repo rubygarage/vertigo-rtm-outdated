@@ -45,6 +45,12 @@ module Vertigo
                  through: :messages,
                  class_name: 'Vertigo::Rtm::Attachment'
       end
+
+      class_methods do
+        def policy_class
+          Vertigo::Rtm::UserPolicy
+        end
+      end
     end
   end
 end
