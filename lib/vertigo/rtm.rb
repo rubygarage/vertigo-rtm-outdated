@@ -1,4 +1,5 @@
 require 'vertigo/rtm/engine'
+require 'carrierwave'
 
 module Vertigo
   module Rtm

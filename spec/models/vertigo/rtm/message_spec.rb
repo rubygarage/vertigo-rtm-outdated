@@ -7,6 +7,7 @@ module Vertigo::Rtm
     context 'associations' do
       it { is_expected.to belong_to(:creator).class_name(Vertigo::Rtm.user_class.to_s) }
       it { is_expected.to belong_to(:conversation).counter_cache(true) }
+      it { is_expected.to have_many(:attachments).dependent(:destroy) }
     end
 
     context 'validations' do

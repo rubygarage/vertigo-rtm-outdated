@@ -40,6 +40,10 @@ module Vertigo
                  dependent: :destroy,
                  foreign_key: :user_id,
                  class_name: 'Vertigo::Rtm::Message'
+
+        has_many :attachments,
+                 through: :messages,
+                 class_name: 'Vertigo::Rtm::Attachment'
       end
     end
   end

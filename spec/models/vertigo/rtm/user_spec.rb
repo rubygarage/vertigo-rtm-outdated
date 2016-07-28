@@ -39,6 +39,10 @@ RSpec.describe User, type: :model do
                         dependent(:destroy).
                         with_foreign_key(:user_id).
                         class_name('Vertigo::Rtm::Message') }
+
+    it { is_expected.to have_many(:attachments).
+                        class_name('Vertigo::Rtm::Attachment').
+                        through(:messages) }
   end
 
   context 'validations' do
