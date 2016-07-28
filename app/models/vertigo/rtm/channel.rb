@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class Channel < Vertigo::Rtm::Conversation
+    class Channel < Conversation
     end
   end
 end

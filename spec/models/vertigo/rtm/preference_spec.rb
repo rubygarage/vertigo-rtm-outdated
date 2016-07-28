@@ -4,14 +4,14 @@ module Vertigo::Rtm
   RSpec.describe Preference, type: :model do
     subject(:preference) { create(:vertigo_rtm_preference) }
 
-    context 'Associations' do
+    context 'associations' do
       it { is_expected.to belong_to(:preferenceable) }
     end
 
-    context 'Validations' do
+    context 'validations' do
     end
 
-    context 'Methods' do
+    context 'methods' do
     end
   end
 end

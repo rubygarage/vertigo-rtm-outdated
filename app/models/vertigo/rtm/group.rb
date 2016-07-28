@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class Group < Vertigo::Rtm::Conversation
+    class Group < Conversation
     end
   end
 end

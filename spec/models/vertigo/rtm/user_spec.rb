@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   subject(:user) { create(:user) }
 
-  context 'Associations' do
+  context 'associations' do
     it { is_expected.to have_many(:conversation_user_relations).
                         dependent(:destroy).
                         with_foreign_key(:user_id).
@@ -41,9 +41,9 @@ RSpec.describe User, type: :model do
                         class_name('Vertigo::Rtm::Message') }
   end
 
-  context 'Validations' do
+  context 'validations' do
   end
 
-  context 'Methods' do
+  context 'methods' do
   end
 end

@@ -1,10 +1,10 @@
-require "vertigo/rtm/engine"
+require 'vertigo/rtm/engine'
 
 module Vertigo
   module Rtm
     mattr_accessor :user_class
     def self.user_class
-      fail 'Please use a string instead of a class' if @@user_class.is_a?(Class)
+      raise 'Please use a string instead of a class' if @@user_class.is_a?(Class)
 
       if @@user_class.is_a?(String)
         begin
