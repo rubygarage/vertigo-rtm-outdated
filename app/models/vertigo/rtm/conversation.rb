@@ -4,7 +4,7 @@ module Vertigo
       enum status: { unarchive: 0, archive: 1 }
 
       has_many   :conversation_user_relations, dependent: :destroy
-      has_many   :members, through: :conversation_user_relations, class_name: Vertigo::Rtm.user_class
+      has_many   :members, through: :conversation_user_relations, source: :user
       belongs_to :creator, class_name: Vertigo::Rtm.user_class, foreign_key: :creator_id
       has_many   :messages, dependent: :destroy
 
