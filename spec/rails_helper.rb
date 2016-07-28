@@ -14,6 +14,8 @@ Rails.backtrace_cleaner.remove_silencers!
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
+ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+
 RSpec.configure do |config|
   config.include(FactoryGirl::Syntax::Methods)
   config.include(Shoulda::Matchers::ActiveModel, type: :model)

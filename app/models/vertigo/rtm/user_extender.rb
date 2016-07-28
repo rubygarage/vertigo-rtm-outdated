@@ -4,6 +4,8 @@ module Vertigo
       extend ActiveSupport::Concern
 
       included do
+        enum state: { away: 0, online: 1, dnd: 2 }
+
         has_many :conversation_user_relations,
                  class_name: 'Vertigo::Rtm::ConversationUserRelation',
                  dependent: :destroy,

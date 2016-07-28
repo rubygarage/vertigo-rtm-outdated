@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   subject(:user) { create(:user) }
 
+  context 'enums' do
+    it { is_expected.to define_enum_for(:state).with([:away, :online, :dnd])}
+  end
+
   context 'associations' do
     it { is_expected.to have_many(:conversation_user_relations).
                         dependent(:destroy).
