@@ -6,7 +6,7 @@ module Vertigo
       subject(:channel) { create(:vertigo_rtm_channel) }
 
       context 'enums' do
-        it { is_expected.to define_enum_for(:status).with([:unarchive, :archive]) }
+        it { is_expected.to define_enum_for(:state).with([:unarchive, :archive]) }
       end
 
       context 'associations' do
