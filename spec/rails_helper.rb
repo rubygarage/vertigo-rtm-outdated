@@ -9,6 +9,7 @@ require 'faker'
 require 'shoulda-matchers'
 require 'database_cleaner'
 require 'pundit/rspec'
+require 'generator_spec'
 
 Rails.backtrace_cleaner.remove_silencers!
 

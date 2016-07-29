@@ -1,0 +1,9 @@
+Description:
+  Create an initializer with defaults and migration with a user status.
+
+Example:
+  rails generate vertigo:rtm:install MODEL
+
+  This will create:
+    config/initializers/vertigo_rtm.rb
+    db/migrate/YYYYMMDDHHMMSS_add_vertigo_rtm_status_to_users.rb

@@ -1,3 +1,4 @@
+require 'rails/generators'
 require 'rails/generators/migration'
 require 'rails/generators/active_record'
 
@@ -8,6 +9,7 @@ module Vertigo
         include ::Rails::Generators::Migration
 
         source_root File.expand_path('../templates', __FILE__)
+        argument :user_class_name, type: :string, default: 'User'
 
         def self.next_migration_number(dirname)
           next_migration_number = current_migration_number(dirname) + 1
@@ -15,7 +17,7 @@ module Vertigo
         end
 
         def copy_initializer_file
-          copy_file \
+          template \
             'initializer.rb',
             'config/initializers/vertigo_rtm.rb'
         end
@@ -27,7 +29,7 @@ module Vertigo
         end
 
         def table_name
-          Vertigo::Rtm.user_class.table_name
+          user_class.table_name
         end
 
         def migration_version
@@ -36,8 +38,12 @@ module Vertigo
 
         private
 
+        def user_class
+          user_class_name.constantize
+        end
+
         def destination
-          "db/migrate/add_vertigo_rtm_to_#{table_name}.rb"
+          "db/migrate/add_vertigo_rtm_status_to_#{table_name}.rb"
         end
       end
     end

@@ -80,6 +80,9 @@ GEM
       railties (>= 3.0.0)
     faker (1.6.3)
       i18n (~> 0.5)
+    generator_spec (0.9.3)
+      activesupport (>= 3.0.0)
+      railties (>= 3.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -177,6 +180,7 @@ DEPENDENCIES
   database_cleaner
   factory_girl_rails
   faker
+  generator_spec
   rspec-rails
   shoulda-matchers
   sqlite3
