@@ -1,5 +1,7 @@
 require 'vertigo/rtm/engine'
+require 'active_model_serializers'
 require 'carrierwave'
+require 'pundit'
 
 module Vertigo
   module Rtm

@@ -15,7 +15,9 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'rails', '~> 5.0.0'
+  s.add_dependency 'active_model_serializers', '~> 0.10.0'
   s.add_dependency 'carrierwave', '~> 0.11.2'
+  s.add_dependency 'pundit', '~> 1.1'
 
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rspec-rails'
