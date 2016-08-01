@@ -1,0 +1,23 @@
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'tmp/**/*'
+  TargetRubyVersion: 2.3
+
+Rails:
+  Enabled: true
+
+HasAndBelongsToMany:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Documentation:
+  Enabled: false
+
+FrozenStringLiteralComment:
+  Enabled: false
