@@ -1,15 +1,12 @@
-require_dependency 'vertigo/rtm/application_controller'
-
 module Vertigo
   module Rtm
     class ChannelsController < ApplicationController
-      before_action :set_channel, only: [:show, :update, :destroy]
-      before_action :set_conversation_current_user_relation, only: [:leave]
-      before_action :set_conversation_user_relation, only: [:kick]
+      before_action :set_channel, only: [:show, :update, :destroy, :leave, :kick, :invite]
 
       def create
-        channel = Channel.create!(channel_params)
-        render_resource channel
+        authorize Channel
+        channel = Channel.create!(create_channel_params)
+        render_resource channel, status: :created
       end
 
       def show
@@ -17,52 +14,49 @@ module Vertigo
       end
 
       def update
-        @channel.update!(channel_params)
+        @channel.update!(update_channel_params)
         render_resource @channel
       end
 
       def destroy
         @channel.destroy!
-        render_resource @channel
+        head :no_content
       end
 
       def leave
-        @channel_user_connection.destroy!
-        render_resource channel
+        channel_user_relation(vertigo_rtm_current_user.id).destroy!
+        head :ok
       end
 
       def kick
-        @channel_user_connection.destroy!
-        render_resource channel
+        channel_user_relation(params[:member_id]).destroy!
+        head :ok
       end
 
       def invite
-        ConversationUserRelation.create(
-          conversation_id: params[:id], user_id: params[:user_id]
-        ).create!
-        render_resource channel
+        @channel.conversation_user_relations.create!(user_id: params[:member_id])
+        render_resource @channel
       end
 
       private
 
       def set_channel
         @channel = Channel.find(params[:id])
+        authorize @channel
       end
 
-      def set_conversation_user_relation
-        @channel_user_connection = ConversationUserRelation.create(
-          conversation_id: params[:id], user_id: params[:user_id]
-        )
+      def channel_user_relation(user_id)
+        @channel.conversation_user_relations.find_by!(user_id: user_id)
       end
 
-      def set_conversation_current_user_relation
-        @channel_user_connection = ConversationUserRelation.create(
-          conversation_id: params[:id], user_id: params[:user_id]
-        )
+      def create_channel_params
+        params.require(:channel)
+              .permit(:name, member_ids: [])
+              .merge(creator: vertigo_rtm_current_user)
       end
 
-      def channel_params
-        params.require(:channel).permit(:name, member_ids: [])
+      def update_channel_params
+        params.require(:channel).permit(:name)
       end
     end
   end

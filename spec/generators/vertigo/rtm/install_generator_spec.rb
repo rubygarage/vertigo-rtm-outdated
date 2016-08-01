@@ -4,7 +4,7 @@ require 'generators/vertigo/rtm/install/install_generator'
 module Vertigo
   module Rtm
     RSpec.describe Generators::InstallGenerator, type: :generator do
-      destination File.expand_path('../../../../../tmp', __FILE__)
+      destination Engine.root.join('tmp')
 
       def cleanup_destination_root
         FileUtils.rm_rf destination_root

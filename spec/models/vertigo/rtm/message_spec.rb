@@ -17,5 +17,32 @@ module Vertigo
       context 'methods' do
       end
     end
+
+    context 'scopes' do
+      context '#unread_by' do
+        let(:conversation) { create(:vertigo_rtm_conversation) }
+        let!(:odd_message) do
+          create(:vertigo_rtm_message, created_at: 2.days.ago)
+        end
+        let!(:old_message) do
+          create(:vertigo_rtm_message, created_at: 4.days.ago, conversation: conversation)
+        end
+        let!(:new_message) do
+          create(:vertigo_rtm_message, created_at: 2.days.ago, conversation: conversation)
+        end
+        let(:user) { create(:user) }
+
+        before do
+          membership = create(:vertigo_rtm_conversation_user_relation,
+                              user: user,
+                              conversation: conversation)
+          membership.update_column(:last_read_at, 3.days.ago)
+        end
+
+        it 'returns messages not read by user' do
+          expect(conversation.messages.unread_by(user.id)).to eq([new_message])
+        end
+      end
+    end
   end
 end

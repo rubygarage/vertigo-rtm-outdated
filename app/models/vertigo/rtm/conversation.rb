@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     class Conversation < ApplicationRecord
-      enum status: { unarchive: 0, archive: 1 }
+      enum state: { unarchive: 0, archive: 1 }
 
       has_many   :conversation_user_relations, dependent: :destroy
       has_many   :members, through: :conversation_user_relations, source: :user
@@ -10,12 +10,20 @@ module Vertigo
 
       validates :name, uniqueness: true, presence: true
 
+      after_commit :ensure_user_conversation_relation, on: [:create, :update]
+
       def group?
         self.class.name.demodulize == 'Group'
       end
 
       def channel?
         self.class.name.demodulize == 'Channel'
+      end
+
+      private
+
+      def ensure_user_conversation_relation
+        conversation_user_relations.find_or_create_by(user_id: creator_id)
       end
     end
   end

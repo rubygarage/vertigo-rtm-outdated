@@ -1,5 +1,3 @@
-require_dependency 'vertigo/rtm/application_controller'
-
 module Vertigo
   module Rtm
     class MessagesController < ApplicationController

@@ -11,12 +11,12 @@ module Vertigo
       end
 
       permissions :index? do
-        it { expect(subject).to permit(user, user) }
+        it { is_expected.to permit(user, user) }
       end
 
       permissions :update? do
-        it { expect(subject).to permit(user, user) }
-        it { expect(subject).not_to permit(user, create(:user)) }
+        it { is_expected.to permit(user, user) }
+        it { is_expected.not_to permit(user, create(:user)) }
       end
     end
   end

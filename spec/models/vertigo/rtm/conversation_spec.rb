@@ -31,5 +31,28 @@ module Vertigo
         end
       end
     end
+
+    context 'callbacks' do
+      context 'after commit' do
+        context '#ensure_user_conversation_relation' do
+          let(:user) { create(:user) }
+          let(:conversation) { build(:vertigo_rtm_conversation, creator: user) }
+
+          it 'creates user_conversation relation for creator' do
+            conversation.save
+
+            expect(conversation.reload.members_count).to eq(1)
+          end
+
+          it 'is called after commit' do
+            allow(conversation).to receive(:ensure_user_conversation_relation)
+
+            conversation.run_callbacks(:commit)
+
+            expect(conversation).to have_received(:ensure_user_conversation_relation)
+          end
+        end
+      end
+    end
   end
 end
