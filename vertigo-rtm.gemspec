@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = Vertigo::Rtm::VERSION
   s.authors     = ['chubchenko']
   s.email       = ['artem.chubchenko@gmail.com']
-  s.homepage    = 'TODO'
-  s.summary     = 'TODO: Summary of Vertigo::Rtm.'
-  s.description = 'TODO: Description of Vertigo::Rtm.'
+  s.homepage    = 'https://github.com/rubygarage/vertigo-rtm'
+  s.summary     = 'Real time messenger'
+  s.description = s.summary
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
