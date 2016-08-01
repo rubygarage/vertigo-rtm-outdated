@@ -23,6 +23,7 @@ PreCommit:
 
   RuboCop:
     enabled: true
+    exclude: 'lib/generators/vertigo/rtm/install/templates/**/*'
 
   CoffeeLint:
     enabled: true
