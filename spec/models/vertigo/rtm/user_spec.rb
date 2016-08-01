@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   subject(:user) { create(:user) }
 
   context 'enums' do
-    it { is_expected.to define_enum_for(:state).with([:away, :online, :dnd])}
+    it { is_expected.to define_enum_for(:vertigo_rtm_status).with([:away, :online, :dnd])}
   end
 
   context 'associations' do
