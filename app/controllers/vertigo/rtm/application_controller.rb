@@ -1,12 +1,13 @@
 module Vertigo
   module Rtm
     class ApplicationController < ::ApplicationController
+      include Pundit
+
       layout :vertigo_rtm_layout
+
       serialization_scope :view_context
 
       rescue_from StandardError, with: :handle_error
-
-      include Pundit
 
       helper_method :vertigo_rtm_current_user
 

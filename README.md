@@ -47,7 +47,7 @@ The `status` field has the following available values: `online`, `away`, `dnd`.
 {
   "id": 1,
   "name": "general",
-  "state": "unarchive",
+  "state": "unarchived",
   "creatorId": 1,
   "memberIds": [1, 2, 3],
   "membersCount": 3,
@@ -58,14 +58,14 @@ The `status` field has the following available values: `online`, `away`, `dnd`.
   "updatedAt": "2016-07-18 16:26:36"
 }
 ```
-The `state` field has the following available values: `unarchive`, `archive`.
+The `state` field has the following available values: `unarchived`, `archived`.
 
 ### Group
 ```js
 {
   "id": 1,
   "name": "secretplans",
-  "state": "unarchive",
+  "state": "unarchived",
   "creatorId": 1,
   "memberIds": [1, 2],
   "membersCount": 2,
@@ -76,7 +76,7 @@ The `state` field has the following available values: `unarchive`, `archive`.
   "updatedAt": "2016-07-18 16:26:36"
 }
 ```
-The `state` field has the following available values: `unarchive`, `archive`.
+The `state` field has the following available values: `unarchived`, `archived`.
 
 ### File
 ```js

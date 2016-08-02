@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject(:user) { create(:user) }
+  subject { create(:user) }
 
   context 'enums' do
     it { is_expected.to define_enum_for(:vertigo_rtm_status).with([:away, :online, :dnd]) }

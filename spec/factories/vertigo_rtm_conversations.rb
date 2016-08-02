@@ -7,12 +7,12 @@ FactoryGirl.define do
 
     association :creator, factory: :user
 
-    trait :unarchive do
-      state Vertigo::Rtm::Conversation.states[:unarchive]
+    trait :unarchived do
+      state Vertigo::Rtm::Conversation.states[:unarchived]
     end
 
-    trait :archive do
-      state Vertigo::Rtm::Conversation.states[:archive]
+    trait :archived do
+      state Vertigo::Rtm::Conversation.states[:archived]
     end
   end
 end

@@ -18,7 +18,7 @@ module Vertigo
       context 'validations' do
         it { is_expected.to validate_presence_of(:name) }
         it { is_expected.to validate_uniqueness_of(:name) }
-        it { is_expected.to define_enum_for(:state).with([:unarchive, :archive]) }
+        it { is_expected.to define_enum_for(:state).with([:unarchived, :archived]) }
       end
 
       context 'methods' do

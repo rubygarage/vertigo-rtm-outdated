@@ -12,6 +12,10 @@ module Vertigo
       def policy_class
         Vertigo::Rtm::UserPolicy
       end
+
+      def conversations
+        Conversation.none
+      end
     end
   end
 end

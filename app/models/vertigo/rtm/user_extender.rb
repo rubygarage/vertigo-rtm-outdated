@@ -9,7 +9,8 @@ module Vertigo
         has_many :conversation_user_relations,
                  class_name: 'Vertigo::Rtm::ConversationUserRelation',
                  dependent: :destroy,
-                 foreign_key: :user_id
+                 foreign_key: :user_id,
+                 inverse_of: :user
 
         has_many :conversations,
                  through: :conversation_user_relations,

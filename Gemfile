@@ -2,4 +2,4 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'byebug', group: [:development, :test]
+gem 'pry-byebug', group: [:development, :test]
