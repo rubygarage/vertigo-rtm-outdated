@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     class ChannelsController < ApplicationController
-      before_action :set_channel, only: [:show, :update, :destroy, :leave, :kick, :invite]
+      before_action :set_and_authorize_channel, only: [:show, :update, :destroy, :leave, :kick, :invite]
 
       def create
         authorize Channel
@@ -40,7 +40,7 @@ module Vertigo
 
       private
 
-      def set_channel
+      def set_and_authorize_channel
         @channel = Channel.find(params[:id])
         authorize @channel
       end

@@ -1,35 +1,13 @@
-RSpec.shared_examples 'unauthorized error' do
-  it { expect(response).to be_unauthorized }
+RSpec.shared_context 'controller error responses' do
+  RSpec.shared_examples 'API error' do |error_type|
+    let(:status) { error_type == :unprocessable_entity ? :unprocessable : error_type }
 
-  it 'renders unauthorized error json' do
-    expect(json_response[:errors].first[:title]).to \
-      eq(t('errors.unauthorized', scope: 'vertigo.rtm'))
-  end
-end
+    it "responds with status :#{error_type}" do
+      expect(response).to send("be_#{status}")
+    end
 
-RSpec.shared_examples 'unprocessable entity error' do
-  it { expect(response).to be_unprocessable }
-
-  it 'renders unprocessable entity error json' do
-    expect(json_response[:errors].first[:title]).to \
-      eq(t('errors.unprocessable_entity', scope: 'vertigo.rtm'))
-  end
-end
-
-RSpec.shared_examples 'not found error' do
-  it { expect(response).to be_not_found }
-
-  it 'renders not found error json' do
-    expect(json_response[:errors].first[:title]).to \
-      eq(t('errors.not_found', scope: 'vertigo.rtm'))
-  end
-end
-
-RSpec.shared_examples 'forbidden error' do
-  it { expect(response).to be_forbidden }
-
-  it 'renders forbidden error json' do
-    expect(json_response[:errors].first[:title]).to \
-      eq(t('errors.forbidden', scope: 'vertigo.rtm'))
+    it "renders #{error_type} error json" do
+      expect(json_response[:errors].first[:title]).to eq(t("errors.#{error_type}", scope: 'vertigo.rtm'))
+    end
   end
 end

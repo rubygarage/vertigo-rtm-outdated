@@ -9,6 +9,7 @@ module Vertigo
       let(:new_member) { create(:user) }
       let(:channel) { create(:vertigo_rtm_channel, creator: creator, members: [member]) }
       let(:channel_attributes) { attributes_for(:vertigo_rtm_channel) }
+      include_context 'controller error responses'
 
       before { allow(controller).to receive(:vertigo_rtm_current_user).and_return(creator) }
 
@@ -29,13 +30,13 @@ module Vertigo
             post :create, params: { channel: { name: channel_attributes[:name] } }
           end
 
-          it_behaves_like 'unauthorized error'
+          it_behaves_like 'API error', :unauthorized
         end
 
         context 'fails with unprocessable entity error' do
           before { post :create, params: { channel: { name: '' } } }
 
-          it_behaves_like 'unprocessable entity error'
+          it_behaves_like 'API error', :unprocessable_entity
         end
       end
 
@@ -52,7 +53,7 @@ module Vertigo
             get :show, params: { id: channel.id }
           end
 
-          it_behaves_like 'unauthorized error'
+          it_behaves_like 'API error', :unauthorized
         end
 
         context 'fails with forbidden error' do
@@ -61,7 +62,7 @@ module Vertigo
             get :show, params: { id: channel.id }
           end
 
-          it_behaves_like 'forbidden error'
+          it_behaves_like 'API error', :forbidden
         end
       end
 
@@ -82,7 +83,7 @@ module Vertigo
             put :update, params: { id: channel.id, channel: { name: channel_attributes[:name] } }
           end
 
-          it_behaves_like 'unauthorized error'
+          it_behaves_like 'API error', :unauthorized
         end
 
         context 'fails with forbidden error' do
@@ -91,13 +92,13 @@ module Vertigo
             put :update, params: { id: channel.id, channel: { name: channel_attributes[:name] } }
           end
 
-          it_behaves_like 'forbidden error'
+          it_behaves_like 'API error', :forbidden
         end
 
         context 'fails with unprocessable entity error' do
           before { put :update, params: { id: channel.id, channel: { name: '' } } }
 
-          it_behaves_like 'unprocessable entity error'
+          it_behaves_like 'API error', :unprocessable_entity
         end
       end
 
@@ -115,7 +116,7 @@ module Vertigo
             delete :destroy, params: { id: channel.id }
           end
 
-          it_behaves_like 'unauthorized error'
+          it_behaves_like 'API error', :unauthorized
         end
 
         context 'fails with forbidden error' do
@@ -124,7 +125,7 @@ module Vertigo
             delete :destroy, params: { id: channel.id }
           end
 
-          it_behaves_like 'forbidden error'
+          it_behaves_like 'API error', :forbidden
         end
       end
 
@@ -142,7 +143,7 @@ module Vertigo
             put :leave, params: { id: channel.id }
           end
 
-          it_behaves_like 'unauthorized error'
+          it_behaves_like 'API error', :unauthorized
         end
 
         context 'fails with forbidden error' do
@@ -151,7 +152,7 @@ module Vertigo
             put :leave, params: { id: channel.id }
           end
 
-          it_behaves_like 'forbidden error'
+          it_behaves_like 'API error', :forbidden
         end
       end
 
@@ -169,7 +170,7 @@ module Vertigo
             put :kick, params: { id: channel.id, member_id: member.id }
           end
 
-          it_behaves_like 'unauthorized error'
+          it_behaves_like 'API error', :unauthorized
         end
 
         context 'fails with forbidden error' do
@@ -178,13 +179,13 @@ module Vertigo
             put :kick, params: { id: channel.id, member_id: member.id }
           end
 
-          it_behaves_like 'forbidden error'
+          it_behaves_like 'API error', :forbidden
         end
 
         context 'fails with not found error' do
           before { put :kick, params: { id: channel.id, member_id: 1234 } }
 
-          it_behaves_like 'not found error'
+          it_behaves_like 'API error', :not_found
         end
       end
 
@@ -204,7 +205,7 @@ module Vertigo
             put :invite, params: { id: channel.id, member_id: new_member.id }
           end
 
-          it_behaves_like 'unauthorized error'
+          it_behaves_like 'API error', :unauthorized
         end
 
         context 'fails with forbidden error' do
@@ -213,13 +214,13 @@ module Vertigo
             put :invite, params: { id: channel.id, member_id: new_member.id }
           end
 
-          it_behaves_like 'forbidden error'
+          it_behaves_like 'API error', :forbidden
         end
 
         context 'fails with unprocessable entity error' do
           before { put :invite, params: { id: channel.id, member_id: 1234 } }
 
-          it_behaves_like 'unprocessable entity error'
+          it_behaves_like 'API error', :unprocessable_entity
         end
       end
     end
