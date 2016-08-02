@@ -9,6 +9,8 @@ module Vertigo
 
       before_validation :mark_last_read_timestamp, on: :create
 
+      after_commit :create_preference, on: :create
+
       protected
 
       def mark_last_read_timestamp

@@ -54,6 +54,10 @@ module Vertigo
           Vertigo::Rtm::UserPolicy
         end
       end
+
+      def preference
+        super || build_preference
+      end
     end
   end
 end

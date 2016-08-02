@@ -16,6 +16,10 @@ module Vertigo
       def conversations
         Conversation.none
       end
+
+      def preference
+        Vertigo::Rtm::Preference.new
+      end
     end
   end
 end

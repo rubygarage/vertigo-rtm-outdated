@@ -1,7 +1,7 @@
 Vertigo::Rtm::Engine.routes.draw do
-  resources :users, only: [:index, :update] do
-    resource :preference, only: [:show, :update]
-  end
+  resources :users, only: [:index, :update]
+
+  resource :preference, only: [:show, :update]
 
   resources :conversations, only: :index do
     resource :preference, only: [:show, :update]
