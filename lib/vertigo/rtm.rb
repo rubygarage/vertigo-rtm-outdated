@@ -1,5 +1,6 @@
 require 'vertigo/rtm/engine'
 require 'carrierwave'
+require 'apipie-rails'
 
 module Vertigo
   module Rtm

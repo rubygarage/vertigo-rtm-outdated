@@ -1,6 +1,11 @@
 module Vertigo
   module Rtm
     class ApplicationController < ::ApplicationController
+      resource_description do
+        short 'Application Controller'
+        api_versions 'v1'
+      end
+
       layout :vertigo_rtm_layout
 
       helper_method :vertigo_rtm_current_user

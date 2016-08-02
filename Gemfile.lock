@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     vertigo-rtm (0.1.0)
+      apipie-rails (~> 0.3.6)
       carrierwave (~> 0.11.2)
       rails (~> 5.0.0)
 
@@ -46,7 +47,9 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    arel (7.1.0)
+    apipie-rails (0.3.6)
+      json
+    arel (7.1.1)
     builder (3.2.2)
     byebug (9.0.5)
     capybara (2.7.1)
@@ -71,12 +74,12 @@ GEM
     factory_girl_rails (4.7.0)
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
-    faker (1.6.3)
+    faker (1.6.6)
       i18n (~> 0.5)
-    globalid (0.3.6)
+    globalid (0.3.7)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
-    json (2.0.1)
+    json (2.0.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -120,7 +123,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (11.2.2)
-    rspec-core (3.5.0)
+    rspec-core (3.5.2)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -128,7 +131,7 @@ GEM
     rspec-mocks (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
-    rspec-rails (3.5.0)
+    rspec-rails (3.5.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -172,4 +175,4 @@ DEPENDENCIES
   vertigo-rtm!
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
