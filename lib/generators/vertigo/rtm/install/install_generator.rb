@@ -28,9 +28,7 @@ module Vertigo
             destination
         end
 
-        def table_name
-          user_class.table_name
-        end
+        delegate :table_name, to: :user_class
 
         def migration_version
           "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"

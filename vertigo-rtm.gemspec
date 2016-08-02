@@ -1,4 +1,4 @@
-$:.push File.expand_path('../lib', __FILE__)
+$LOAD_PATH.push File.expand_path('../lib', __FILE__)
 
 require 'vertigo/rtm/version'
 
@@ -27,4 +27,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'faker'
   s.add_development_dependency 'database_cleaner'
   s.add_development_dependency 'generator_spec'
+  s.add_development_dependency 'coffeelint'
+  s.add_development_dependency 'overcommit'
+  s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'rubycritic'
+  s.add_development_dependency 'scss_lint'
 end

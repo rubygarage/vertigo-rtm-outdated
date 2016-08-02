@@ -1,0 +1,44 @@
+CommitMsg:
+  CapitalizedSubject:
+    enabled: false
+
+  EmptyMessage:
+    enabled: false
+
+  TrailingPeriod:
+    enabled: true
+
+  TextWidth:
+    enabled: false
+
+PreCommit:
+  ALL:
+    on_warn: fail
+
+  AuthorEmail:
+    enabled: false
+
+  AuthorName:
+    enabled: false
+
+  RuboCop:
+    enabled: true
+    exclude: 'lib/generators/vertigo/rtm/install/templates/**/*'
+
+  CoffeeLint:
+    enabled: true
+    required_executable: 'coffeelint.rb'
+    flags: ['--file=.coffeelint.json', '--reporter=csv']
+
+  MergeConflicts:
+    enabled: true
+
+  ScssLint:
+    enabled: true
+
+  TrailingWhitespace:
+    enabled: true
+    exclude: 'vendor/**/*'
+
+  YamlSyntax:
+    enabled: true
