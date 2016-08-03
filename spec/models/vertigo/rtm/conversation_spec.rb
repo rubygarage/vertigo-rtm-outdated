@@ -7,11 +7,8 @@ module Vertigo
 
       context 'associations' do
         it { is_expected.to belong_to(:creator).class_name(Vertigo::Rtm.user_class.to_s) }
-        it { is_expected.to have_many(:conversation_user_relations).dependent(:destroy) }
-        it do
-          is_expected.to have_many(:members).through(:conversation_user_relations)
-            .class_name(Vertigo::Rtm.user_class.to_s)
-        end
+        it { is_expected.to have_many(:memberships).dependent(:destroy) }
+        it { is_expected.to have_many(:members).through(:memberships).class_name(Vertigo::Rtm.user_class.to_s) }
         it { is_expected.to have_many(:messages).dependent(:destroy) }
       end
 

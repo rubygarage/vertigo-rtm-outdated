@@ -13,12 +13,12 @@ module Vertigo
       end
 
       context 'methods' do
-        context '#user?' do
-          it { expect(create(:vertigo_rtm_preference, :for_user)).to be_user }
+        context '#userable?' do
+          it { expect(create(:vertigo_rtm_preference, :for_user)).to be_userable }
         end
 
-        context '#conversation_user_relation?' do
-          it { expect(create(:vertigo_rtm_preference, :for_conversation)).to be_conversation_user_relation }
+        context '#membershipable?' do
+          it { expect(create(:vertigo_rtm_preference, :for_membership)).to be_membershipable }
         end
       end
     end

@@ -2,17 +2,21 @@ module Vertigo
   module Rtm
     class PreferencePolicy < ApplicationPolicy
       def show?
-        scope.where(id: record.id).exists?
+        own_preference?
       end
 
       def update?
-        true
+        own_preference?
       end
 
       private
 
       def own_preference?
-        @record.preferenceable_id = @user.id
+        if record.user?
+          record.preferenceable_id = user.id
+        else
+          record.preferenceable.user_id = user.id
+        end
       end
     end
   end

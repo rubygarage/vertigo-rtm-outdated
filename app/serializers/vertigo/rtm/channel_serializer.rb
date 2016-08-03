@@ -21,7 +21,7 @@ module Vertigo
       private
 
       def conversation_user_relation
-        object.conversation_user_relations.find_by(user_id: scope.vertigo_rtm_current_user.id)
+        object.memberships.find_by(user_id: scope.vertigo_rtm_current_user.id)
       end
     end
   end

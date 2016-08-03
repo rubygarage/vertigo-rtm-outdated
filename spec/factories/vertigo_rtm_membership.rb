@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :vertigo_rtm_conversation_user_relation, class: 'Vertigo::Rtm::ConversationUserRelation' do
+  factory :vertigo_rtm_membership, class: 'Vertigo::Rtm::Membership' do
     last_read_at { Time.zone.now }
 
     association :user, factory: :user

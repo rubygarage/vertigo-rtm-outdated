@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     class PreferencesController < ApplicationController
-      before_action :set_and_preference_channel
+      before_action :set_and_authorize_preference
 
       def show
         render_resource @preference
@@ -14,15 +14,12 @@ module Vertigo
 
       private
 
-      def set_and_preference_channel
+      def set_and_authorize_preference
         @preference =
           if params[:conversation_id]
-            vertigo_rtm_current_user
-              .conversation_user_relations
-              .find_by!(conversation_id: params[:conversation_id])
-              .preference
+            vertigo_rtm_current_user.vertigo_rtm_conversation_preference(params[:conversation_id])
           else
-            vertigo_rtm_current_user.preference
+            vertigo_rtm_current_user.vertigo_rtm_preference
           end
 
         authorize @preference

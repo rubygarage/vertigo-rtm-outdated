@@ -5,14 +5,14 @@ FactoryGirl.define do
     notify_on_message { [true, false].sample }
     muted { [true, false].sample }
 
-    preferenceable { [create(:user), create(:vertigo_rtm_conversation_user_relation)].sample }
+    preferenceable { [create(:user), create(:vertigo_rtm_membership)].sample }
 
     trait :for_user do
       association :preferenceable, factory: :user
     end
 
-    trait :for_conversation do
-      association :preferenceable, factory: :vertigo_rtm_conversation_user_relation
+    trait :for_membership do
+      association :preferenceable, factory: :vertigo_rtm_membership
     end
   end
 end

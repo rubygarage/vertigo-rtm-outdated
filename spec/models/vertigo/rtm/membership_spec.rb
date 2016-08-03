@@ -2,8 +2,8 @@ require 'rails_helper'
 
 module Vertigo
   module Rtm
-    RSpec.describe ConversationUserRelation, type: :model do
-      subject(:conversation_user_relation) { create(:vertigo_rtm_conversation_user_relation) }
+    RSpec.describe Membership, type: :model do
+      subject(:membership) { create(:vertigo_rtm_membership) }
 
       context 'associations' do
         it { is_expected.to belong_to(:user).class_name(Vertigo::Rtm.user_class.to_s) }

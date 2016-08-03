@@ -6,7 +6,7 @@ module Vertigo
       attributes :notify_on_message, :notify_on_mention, :highlight_words, :muted
 
       link :self do
-        if object.user?
+        if object.userable?
           scope.preference_url
         else
           scope.conversation_preference_url(object.preferenceable.conversation.id)

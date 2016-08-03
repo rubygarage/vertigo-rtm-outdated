@@ -9,61 +9,61 @@ RSpec.describe User, type: :model do
 
   context 'associations' do
     it do
-      is_expected.to have_many(:conversation_user_relations)
+      is_expected.to have_many(:vertigo_rtm_memberships)
         .dependent(:destroy)
         .with_foreign_key(:user_id)
-        .class_name('Vertigo::Rtm::ConversationUserRelation')
+        .class_name('Vertigo::Rtm::Membership')
     end
 
     it do
-      is_expected.to have_many(:conversations)
-        .through(:conversation_user_relations)
+      is_expected.to have_many(:vertigo_rtm_conversations)
+        .through(:vertigo_rtm_memberships)
         .class_name('Vertigo::Rtm::Conversation')
     end
 
     it do
-      is_expected.to have_many(:own_conversations)
+      is_expected.to have_many(:vertigo_rtm_own_conversations)
         .with_foreign_key(:creator_id)
         .class_name('Vertigo::Rtm::Conversation')
     end
 
     it do
-      is_expected.to have_many(:groups)
+      is_expected.to have_many(:vertigo_rtm_groups)
         .class_name('Vertigo::Rtm::Group')
-        .through(:conversation_user_relations)
+        .through(:vertigo_rtm_memberships)
         .source(:conversation)
     end
 
     it do
-      is_expected.to have_many(:channels)
+      is_expected.to have_many(:vertigo_rtm_channels)
         .class_name('Vertigo::Rtm::Channel')
-        .through(:conversation_user_relations)
+        .through(:vertigo_rtm_memberships)
         .source(:conversation)
     end
 
     it do
-      is_expected.to have_one(:preference)
+      is_expected.to have_one(:vertigo_rtm_preference)
         .class_name('Vertigo::Rtm::Preference')
         .dependent(:destroy)
     end
 
     it do
-      is_expected.to have_many(:conversation_preferences)
+      is_expected.to have_many(:vertigo_rtm_conversation_preferences)
         .class_name('Vertigo::Rtm::Preference')
-        .through(:conversation_user_relations)
+        .through(:vertigo_rtm_memberships)
     end
 
     it do
-      is_expected.to have_many(:messages)
+      is_expected.to have_many(:vertigo_rtm_messages)
         .dependent(:destroy)
         .with_foreign_key(:user_id)
         .class_name('Vertigo::Rtm::Message')
     end
 
     it do
-      is_expected.to have_many(:attachments)
+      is_expected.to have_many(:vertigo_rtm_attachments)
         .class_name('Vertigo::Rtm::Attachment')
-        .through(:messages)
+        .through(:vertigo_rtm_messages)
     end
   end
 
