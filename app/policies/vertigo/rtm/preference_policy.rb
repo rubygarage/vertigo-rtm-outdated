@@ -12,10 +12,10 @@ module Vertigo
       private
 
       def own_preference?
-        if record.user?
-          record.preferenceable_id = user.id
+        if record.userable?
+          record.preferenceable_id == user.id
         else
-          record.preferenceable.user_id = user.id
+          record.preferenceable.user_id == user.id
         end
       end
     end

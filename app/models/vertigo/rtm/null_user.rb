@@ -17,7 +17,7 @@ module Vertigo
         Conversation.none
       end
 
-      def preference
+      def vertigo_rtm_preference
         Vertigo::Rtm::Preference.new
       end
     end

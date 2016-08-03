@@ -71,5 +71,32 @@ RSpec.describe User, type: :model do
   end
 
   context 'methods' do
+    context '#vertigo_rtm_preference' do
+      context 'when preference does not exist' do
+        it 'creates preference' do
+          expect { subject.vertigo_rtm_preference }.to change { Vertigo::Rtm::Preference.count }.from(0).to(1)
+        end
+      end
+
+      context 'when preferences exist' do
+        let!(:preference) { create(:vertigo_rtm_preference, preferenceable: subject) }
+
+        it 'returns preference' do
+          expect { subject.vertigo_rtm_preference }.not_to change { Vertigo::Rtm::Preference.count }
+        end
+      end
+
+      context '#vertigo_rtm_conversation_preference' do
+        let(:conversation) { create(:vertigo_rtm_conversation, creator: subject) }
+
+        it 'returns conversation preference' do
+          preference = subject.vertigo_rtm_conversation_preference(conversation.id)
+
+          expect(preference).to eq(Vertigo::Rtm::Preference.take)
+        end
+
+        it { expect { subject.vertigo_rtm_conversation_preference(0) }.to raise_error(ActiveRecord::RecordNotFound) }
+      end
+    end
   end
 end

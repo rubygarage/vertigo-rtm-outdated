@@ -37,7 +37,8 @@ module Vertigo
 
         has_many :vertigo_rtm_conversation_preferences,
                  through: :vertigo_rtm_memberships,
-                 class_name: 'Vertigo::Rtm::Preference'
+                 class_name: 'Vertigo::Rtm::Preference',
+                 source: :preference
 
         has_many :vertigo_rtm_messages,
                  dependent: :destroy,
@@ -47,12 +48,6 @@ module Vertigo
         has_many :vertigo_rtm_attachments,
                  through: :vertigo_rtm_messages,
                  class_name: 'Vertigo::Rtm::Attachment'
-
-        scope :vertigo_rtm_conversation_preference, (lambda do |conversation_id|
-          vertigo_rtm_memberships
-            .find_by!(conversation_id: conversation_id)
-            .preference
-        end)
       end
 
       class_methods do
@@ -62,7 +57,13 @@ module Vertigo
       end
 
       def vertigo_rtm_preference
-        super || create_preference
+        super || create_vertigo_rtm_preference
+      end
+
+      def vertigo_rtm_conversation_preference(conversation_id)
+        vertigo_rtm_memberships
+          .find_by!(conversation_id: conversation_id)
+          .preference
       end
     end
   end

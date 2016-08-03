@@ -17,6 +17,27 @@ module Vertigo
 
       context 'methods' do
       end
+
+      context 'callbacks' do
+        context 'after commit' do
+          context '#create_preference' do
+            let(:user) { create(:user) }
+            let(:membership) { build(:vertigo_rtm_membership, user: user) }
+
+            it 'creates preference for membership' do
+              expect { membership.save }.to change { user.vertigo_rtm_conversation_preferences.count }.from(0).to(1)
+            end
+
+            it 'is called after commit' do
+              allow(membership).to receive(:create_preference)
+
+              membership.run_callbacks(:commit)
+
+              expect(membership).to have_received(:create_preference)
+            end
+          end
+        end
+      end
     end
   end
 end

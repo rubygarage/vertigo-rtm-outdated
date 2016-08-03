@@ -26,7 +26,7 @@ module Vertigo
       end
 
       def preference_params
-        params.require(:user).permit(
+        params.require(:preference).permit(
           :notify_on_message,
           :notify_on_mention,
           :highlight_words,
