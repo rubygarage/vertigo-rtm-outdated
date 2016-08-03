@@ -13,7 +13,7 @@ require 'generator_spec'
 
 Rails.backtrace_cleaner.remove_silencers!
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Vertigo::Rtm::Engine.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
@@ -21,6 +21,9 @@ RSpec.configure do |config|
   config.include(FactoryGirl::Syntax::Methods)
   config.include(Shoulda::Matchers::ActiveModel, type: :model)
   config.include(Shoulda::Matchers::ActiveRecord, type: :model)
+  config.include(Request::JsonHelpers, type: :controller)
+  config.include(ActionView::Helpers::TranslationHelper)
+  config.include(ActionView::Context, type: :generator)
 
   config.use_transactional_fixtures = false
 

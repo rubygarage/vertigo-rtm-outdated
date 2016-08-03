@@ -1,0 +1,10 @@
+en:
+  vertigo:
+    rtm:
+      errors:
+        unauthorized: Unauthorized
+        forbidden: Forbidden
+        not_found: Not Found
+        unprocessable_entity: Unprocessable Entity
+        internal_server_error: Internal Server Error
+        unauthorized_details: You are not authorized

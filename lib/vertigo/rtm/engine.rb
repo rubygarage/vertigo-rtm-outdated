@@ -3,6 +3,8 @@ module Vertigo
     class Engine < ::Rails::Engine
       isolate_namespace Vertigo::Rtm
 
+      config.autoload_paths << root.join('lib')
+
       config.generators do |g|
         g.test_framework      :rspec,        fixture: false
         g.fixture_replacement :factory_girl, dir: 'spec/factories'

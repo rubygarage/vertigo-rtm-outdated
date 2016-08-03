@@ -4,7 +4,9 @@ AllCops:
     - 'db/**/*'
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
+    - 'spec/dummy/db/**/*'
     - 'tmp/**/*'
+    - 'lib/generators/vertigo/rtm/install/templates/**/*'
   TargetRubyVersion: 2.3
 
 Rails:
@@ -21,3 +23,7 @@ Documentation:
 
 FrozenStringLiteralComment:
   Enabled: false
+
+Metrics/ModuleLength:
+  Exclude:
+    - spec/**/*_spec.rb

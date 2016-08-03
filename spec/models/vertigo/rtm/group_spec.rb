@@ -18,7 +18,7 @@ module Vertigo
       context 'validations' do
         it { is_expected.to validate_presence_of(:name) }
         it { is_expected.to validate_uniqueness_of(:name) }
-        it { is_expected.to define_enum_for(:status).with([:unarchive, :archive]) }
+        it { is_expected.to define_enum_for(:state).with([:unarchive, :archive]) }
       end
 
       context 'methods' do
@@ -28,6 +28,29 @@ module Vertigo
 
         context '#channel?' do
           it { is_expected.not_to be_channel }
+        end
+      end
+    end
+
+    context 'callbacks' do
+      context 'after commit' do
+        context '#ensure_user_conversation_relation' do
+          let(:user) { create(:user) }
+          let(:group) { build(:vertigo_rtm_group, creator: user) }
+
+          it 'creates user_conversation relation for creator' do
+            group.save
+
+            expect(group.reload.members_count).to eq(1)
+          end
+
+          it 'is called after commit' do
+            allow(group).to receive(:ensure_user_conversation_relation)
+
+            group.run_callbacks(:commit)
+
+            expect(group).to have_received(:ensure_user_conversation_relation)
+          end
         end
       end
     end
