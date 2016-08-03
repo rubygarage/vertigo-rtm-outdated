@@ -21,10 +21,6 @@ module Vertigo
         creator?
       end
 
-      def archive?
-        creator?
-      end
-
       private
 
       def creator?

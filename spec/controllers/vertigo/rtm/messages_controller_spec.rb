@@ -5,8 +5,7 @@ module Vertigo
     RSpec.describe MessagesController, type: :controller do
       routes { Vertigo::Rtm::Engine.routes }
 
-      include_context 'controller error responses'
-      include_context :controller_authorization
+      include_context :controller_error_responses
 
       let(:conversation) { create(:vertigo_rtm_conversation) }
       let(:user) { create(:user, vertigo_rtm_conversations: [conversation]) }
@@ -16,16 +15,6 @@ module Vertigo
         attributes_for(:vertigo_rtm_message).merge(
           attachments_attributes: [attributes_for(:vertigo_rtm_attachment)]
         )
-      end
-
-      shared_examples :it_handles_unauthorized_user do
-        context 'when user is not authorized' do
-          include_context :when_user_is_not_authorized
-
-          before { perform_request }
-
-          it_behaves_like 'API error', :unauthorized
-        end
       end
 
       context 'GET index' do
@@ -107,11 +96,7 @@ module Vertigo
               expect { perform_request }.not_to change { Message.count }
             end
 
-            context 'when request performed' do
-              before { perform_request }
-
-              it_behaves_like 'API error', :unprocessable_entity
-            end
+            it_behaves_like :it_handles_unprocessable_entity_error
           end
         end
       end
@@ -167,11 +152,7 @@ module Vertigo
               expect { perform_request }.not_to change { message.reload.text }
             end
 
-            context 'when request performed' do
-              before { perform_request }
-
-              it_behaves_like 'API error', :unprocessable_entity
-            end
+            it_behaves_like :it_handles_unprocessable_entity_error
           end
         end
       end

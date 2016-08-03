@@ -254,7 +254,27 @@ PATCH/PUT rtm/channels/:id
   }
   ```
 
-DELETE rtm/channels/:id
+PUT rtm/channels/:id/archive
+
++ HTTP Response
+
+  ```js
+  {
+    "ok": true
+  }
+  ```
+
++ WebSocket Response
+
+  ```js
+  {
+    "data": {
+      "id": 1
+    }
+  }
+  ```
+
+PUT rtm/channels/:id/unarchive
 
 + HTTP Response
 
@@ -362,26 +382,6 @@ GET rtm/groups/:id
   {
     "ok": true,
     "data": [Group]
-  }
-  ```
-
-DELETE rtm/groups/:id
-
-  + HTTP Response
-
-  ```js
-  {
-    "ok": true
-  }
-  ```
-
-+ WebSocket Response
-
-  ```js
-  {
-    "data": {
-      "id": 1
-    }
   }
   ```
 

@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class Attachment < ApplicationRecord
+    class Attachment < Vertigo::Rtm::ApplicationRecord
       belongs_to :message, inverse_of: :attachments
 
       mount_uploader :attachment, AttachmentUploader

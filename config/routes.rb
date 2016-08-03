@@ -9,13 +9,15 @@ Vertigo::Rtm::Engine.routes.draw do
     resources :files, only: :index
   end
 
-  resources :channels, only: [:create, :show, :update, :destroy] do
+  resources :channels, only: [:create, :show, :update] do
     member do
       put :leave
       put :kick
       put :invite
+      put :archive
+      put :unarchive
     end
   end
 
-  resources :groups, only: [:create, :show, :destroy]
+  resources :groups, only: [:create, :show]
 end

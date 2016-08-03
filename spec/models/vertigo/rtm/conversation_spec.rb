@@ -26,6 +26,9 @@ module Vertigo
         context '#channel?' do
           it { is_expected.not_to be_channel }
         end
+
+        include_context :changeable_enums
+        it_behaves_like :it_has_enums_with_raising_exceptions, :state
       end
     end
 
@@ -44,8 +47,11 @@ module Vertigo
           it 'is called after commit' do
             allow(conversation).to receive(:ensure_user_conversation_relation)
 
-            conversation.run_callbacks(:commit)
-
+            conversation.valid?
+            expect(conversation).not_to have_received(:ensure_user_conversation_relation)
+            conversation.run_callbacks(:save)
+            expect(conversation).not_to have_received(:ensure_user_conversation_relation)
+            conversation.save
             expect(conversation).to have_received(:ensure_user_conversation_relation)
           end
         end

@@ -10,5 +10,6 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
+    User.last
   end
 end

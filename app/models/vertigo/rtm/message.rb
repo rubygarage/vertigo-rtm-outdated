@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class Message < ApplicationRecord
+    class Message < Vertigo::Rtm::ApplicationRecord
       belongs_to :creator, class_name: Vertigo::Rtm.user_class
       belongs_to :conversation, counter_cache: true
       has_many   :attachments, dependent: :destroy, inverse_of: :message

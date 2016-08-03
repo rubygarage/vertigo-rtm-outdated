@@ -58,7 +58,7 @@ RSpec.describe User, type: :model do
     it do
       is_expected.to have_many(:vertigo_rtm_messages)
         .dependent(:destroy)
-        .with_foreign_key(:user_id)
+        .with_foreign_key(:creator_id)
         .class_name('Vertigo::Rtm::Message')
     end
 
