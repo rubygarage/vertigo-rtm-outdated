@@ -4,4 +4,5 @@ machine:
       2.3.0
 test:
   post:
+    - bundle exec teaspoon
     - bundle exec rubocop

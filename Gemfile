@@ -2,4 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'pry-byebug', group: [:development, :test]
+group :development, :test do
+  gem 'pry-byebug'
+  gem 'teaspoon-jasmine'
+end
