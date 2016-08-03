@@ -17,15 +17,11 @@ module Vertigo
         end
 
         def copy_initializer_file
-          template \
-            'initializer.rb',
-            'config/initializers/vertigo_rtm.rb'
+          template('initializer.rb', 'config/initializers/vertigo_rtm.rb')
         end
 
         def copy_migration_file
-          migration_template \
-            'migration.rb',
-            destination
+          migration_template('migration.rb', destination)
         end
 
         delegate :table_name, to: :user_class

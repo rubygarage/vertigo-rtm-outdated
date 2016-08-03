@@ -3,7 +3,7 @@ module Vertigo
     class Message < ApplicationRecord
       belongs_to :creator, class_name: Vertigo::Rtm.user_class
       belongs_to :conversation, counter_cache: true
-      has_many   :attachments, dependent: :destroy
+      has_many   :attachments, dependent: :destroy, inverse_of: :message
 
       validates :text, presence: true
 
@@ -14,6 +14,8 @@ module Vertigo
         SQL
         joins(conversation: :conversation_user_relations).where(query, user_id).distinct
       end)
+
+      accepts_nested_attributes_for :attachments
     end
   end
 end

@@ -1,8 +1,8 @@
 module Vertigo
   module Rtm
     class ConversationUserRelation < ApplicationRecord
-      belongs_to :conversation, counter_cache: :members_count
-      belongs_to :user, class_name: Vertigo::Rtm.user_class
+      belongs_to :conversation, counter_cache: :members_count, inverse_of: :conversation_user_relations
+      belongs_to :user, class_name: Vertigo::Rtm.user_class, inverse_of: :conversation_user_relations
       has_one    :preference, as: :preferenceable, class_name: 'Vertigo::Rtm::Preference', dependent: :destroy
 
       validates :last_read_at, presence: true
