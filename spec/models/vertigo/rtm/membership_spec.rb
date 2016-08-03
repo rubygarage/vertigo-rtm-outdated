@@ -6,8 +6,12 @@ module Vertigo
       subject(:membership) { create(:vertigo_rtm_membership) }
 
       context 'associations' do
-        it { is_expected.to belong_to(:user).class_name(Vertigo::Rtm.user_class.to_s) }
-        it { is_expected.to belong_to(:conversation).counter_cache(:members_count) }
+        it do
+          is_expected.to belong_to(:user)
+            .class_name(Vertigo::Rtm.user_class.to_s)
+            .inverse_of(:vertigo_rtm_memberships)
+        end
+        it { is_expected.to belong_to(:conversation).counter_cache(:members_count).inverse_of(:memberships) }
         it { is_expected.to have_one(:preference).class_name('Vertigo::Rtm::Preference').dependent(:destroy) }
       end
 
@@ -22,7 +26,8 @@ module Vertigo
         context 'after commit' do
           context '#create_preference' do
             let(:user) { create(:user) }
-            let(:membership) { build(:vertigo_rtm_membership, user: user) }
+            let(:conversation) { create(:vertigo_rtm_conversation) }
+            let(:membership) { build(:vertigo_rtm_membership, user: user, conversation: conversation) }
 
             it 'creates preference for membership' do
               expect { membership.save }.to change { user.vertigo_rtm_conversation_preferences.count }.from(0).to(1)

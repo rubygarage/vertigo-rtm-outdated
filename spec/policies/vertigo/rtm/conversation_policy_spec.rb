@@ -7,12 +7,12 @@ module Vertigo
 
       let(:user) { create(:user) }
       let(:creator) { create(:user) }
-      let(:member) { create(:user, conversation_user_relations: [relation]) }
+      let(:member) { create(:user, vertigo_rtm_memberships: [membership]) }
       let(:conversation) { create(:vertigo_rtm_conversation, creator: creator) }
 
-      let(:relation) do
+      let(:membership) do
         build(
-          :vertigo_rtm_conversation_user_relation,
+          :vertigo_rtm_membership,
           conversation: conversation
         )
       end

@@ -14,7 +14,8 @@ module Vertigo
 
         has_many :vertigo_rtm_conversations,
                  through: :vertigo_rtm_memberships,
-                 class_name: 'Vertigo::Rtm::Conversation'
+                 class_name: 'Vertigo::Rtm::Conversation',
+                 source: :conversation
 
         has_many :vertigo_rtm_own_conversations,
                  class_name: 'Vertigo::Rtm::Conversation',

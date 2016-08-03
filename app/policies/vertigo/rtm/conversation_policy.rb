@@ -12,7 +12,7 @@ module Vertigo
       private
 
       def member_or_creator?
-        record.creator_id == user.id || user.conversations.exists?(record.id)
+        record.creator_id == user.id || user.vertigo_rtm_conversations.exists?(record.id)
       end
     end
   end

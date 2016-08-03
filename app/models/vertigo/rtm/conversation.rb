@@ -3,7 +3,7 @@ module Vertigo
     class Conversation < ApplicationRecord
       enum state: { unarchived: 0, archived: 1 }
 
-      has_many   :memberships, dependent: :destroy
+      has_many   :memberships, dependent: :destroy, inverse_of: :conversation
       has_many   :members, through: :memberships, source: :user
       belongs_to :creator, class_name: Vertigo::Rtm.user_class, foreign_key: :creator_id
       has_many   :messages, dependent: :destroy

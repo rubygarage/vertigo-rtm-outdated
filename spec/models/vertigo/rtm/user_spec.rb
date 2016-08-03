@@ -19,6 +19,7 @@ RSpec.describe User, type: :model do
       is_expected.to have_many(:vertigo_rtm_conversations)
         .through(:vertigo_rtm_memberships)
         .class_name('Vertigo::Rtm::Conversation')
+        .source(:conversation)
     end
 
     it do
@@ -51,6 +52,7 @@ RSpec.describe User, type: :model do
       is_expected.to have_many(:vertigo_rtm_conversation_preferences)
         .class_name('Vertigo::Rtm::Preference')
         .through(:vertigo_rtm_memberships)
+        .source(:preference)
     end
 
     it do

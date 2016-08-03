@@ -9,7 +9,7 @@ module Vertigo
       include_context :controller_authorization
 
       let(:conversation) { create(:vertigo_rtm_conversation) }
-      let(:user) { create(:user, conversations: [conversation]) }
+      let(:user) { create(:user, vertigo_rtm_conversations: [conversation]) }
       let(:invalid_message_params) { valid_message_params.merge(text: '') }
 
       let(:valid_message_params) do
