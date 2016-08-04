@@ -24,6 +24,7 @@ RSpec.configure do |config|
   config.include(Request::JsonHelpers, type: :controller)
   config.include(ActionView::Context, type: :generator)
   config.include(ActionView::Helpers::TranslationHelper)
+  config.include(ActiveJob::TestHelper, type: :job)
 
   config.use_transactional_fixtures = false
 

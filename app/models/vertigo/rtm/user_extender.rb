@@ -4,7 +4,7 @@ module Vertigo
       extend ActiveSupport::Concern
 
       included do
-        enum vertigo_rtm_status: { away: 0, online: 1, dnd: 2 }
+        enum vertigo_rtm_status: { offline: 0, away: 1, online: 2, dnd: 3 }
 
         has_many :vertigo_rtm_memberships,
                  class_name: 'Vertigo::Rtm::Membership',
@@ -52,6 +52,18 @@ module Vertigo
         has_many :vertigo_rtm_attachments,
                  through: :vertigo_rtm_messages,
                  class_name: 'Vertigo::Rtm::Attachment'
+
+        after_commit :ensure_broadcast_appearance, if: :id_or_status_previously_changed?
+
+        protected
+
+        def ensure_broadcast_appearance
+          Vertigo::Rtm::AppearanceBroadcastJob.perform_later(self)
+        end
+
+        def id_or_status_previously_changed?
+          id_previously_changed? || vertigo_rtm_status_previously_changed?
+        end
       end
 
       class_methods do
