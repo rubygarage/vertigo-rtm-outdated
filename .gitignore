@@ -8,4 +8,5 @@ spec/dummy/log/*.log
 spec/dummy/tmp/
 spec/dummy/db/schema.rb
 spec/dummy/public/uploads
+spec/dummy/public/assets
 tmp/
