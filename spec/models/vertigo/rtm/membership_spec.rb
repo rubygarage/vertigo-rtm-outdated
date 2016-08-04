@@ -36,8 +36,11 @@ module Vertigo
             it 'is called after commit' do
               allow(membership).to receive(:create_preference)
 
-              membership.run_callbacks(:commit)
-
+              membership.valid?
+              expect(membership).not_to have_received(:create_preference)
+              membership.run_callbacks(:save)
+              expect(membership).not_to have_received(:create_preference)
+              membership.save
               expect(membership).to have_received(:create_preference)
             end
           end

@@ -2,21 +2,33 @@ module Vertigo
   module Rtm
     class PreferencePolicy < ApplicationPolicy
       def show?
-        own_preference?
+        can_moderate?
       end
 
       def update?
-        own_preference?
+        can_moderate?
       end
 
       private
 
-      def own_preference?
+      def can_moderate?
         if record.userable?
-          record.preferenceable_id == user.id
+          can_moderate_userable?
         else
-          record.preferenceable.user_id == user.id
+          can_moderate_membershipable?
         end
+      end
+
+      def can_moderate_userable?
+        record.preferenceable_id == user.id
+      end
+
+      def can_moderate_membershipable?
+        record.preferenceable.user_id == user.id && conversation_policy.show?
+      end
+
+      def conversation_policy
+        @conversation_policy ||= ConversationPolicy.new(user, record.preferenceable.conversation)
       end
     end
   end

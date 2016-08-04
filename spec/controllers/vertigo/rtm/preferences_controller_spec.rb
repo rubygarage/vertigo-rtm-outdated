@@ -18,6 +18,11 @@ module Vertigo
             before { get :show }
 
             it { expect(response).to be_ok }
+
+            it do
+              expect(response).to serialize_object(user.vertigo_rtm_preference)
+                .with(Vertigo::Rtm::PreferenceSerializer)
+            end
           end
 
           context 'fails with unauthorized error' do
