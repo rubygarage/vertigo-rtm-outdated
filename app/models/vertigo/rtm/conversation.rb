@@ -3,8 +3,8 @@ module Vertigo
     class Conversation < ApplicationRecord
       enum state: { unarchived: 0, archived: 1 }
 
-      has_many   :conversation_user_relations, dependent: :destroy, inverse_of: :conversation
-      has_many   :members, through: :conversation_user_relations, source: :user
+      has_many   :memberships, dependent: :destroy, inverse_of: :conversation
+      has_many   :members, through: :memberships, source: :user
       belongs_to :creator, class_name: Vertigo::Rtm.user_class, foreign_key: :creator_id
       has_many   :messages, dependent: :destroy
 
@@ -23,7 +23,7 @@ module Vertigo
       private
 
       def ensure_user_conversation_relation
-        conversation_user_relations.find_or_create_by(user_id: creator_id)
+        memberships.find_or_create_by(user_id: creator_id)
       end
     end
   end

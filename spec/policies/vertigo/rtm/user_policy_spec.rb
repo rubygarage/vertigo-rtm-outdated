@@ -7,9 +7,6 @@ module Vertigo
 
       subject { described_class }
 
-      permissions '.scope' do
-      end
-
       permissions :index? do
         it { is_expected.to permit(user, user) }
       end

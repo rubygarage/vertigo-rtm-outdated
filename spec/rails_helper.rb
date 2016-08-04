@@ -22,8 +22,8 @@ RSpec.configure do |config|
   config.include(Shoulda::Matchers::ActiveModel, type: :model)
   config.include(Shoulda::Matchers::ActiveRecord, type: :model)
   config.include(Request::JsonHelpers, type: :controller)
-  config.include(ActionView::Helpers::TranslationHelper)
   config.include(ActionView::Context, type: :generator)
+  config.include(ActionView::Helpers::TranslationHelper)
 
   config.use_transactional_fixtures = false
 

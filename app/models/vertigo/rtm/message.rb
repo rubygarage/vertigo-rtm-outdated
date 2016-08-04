@@ -9,10 +9,10 @@ module Vertigo
 
       scope :unread_by, (lambda do |user_id|
         query = <<-SQL
-          vertigo_rtm_conversation_user_relations.user_id = ?
-          AND vertigo_rtm_messages.created_at > vertigo_rtm_conversation_user_relations.last_read_at
+          vertigo_rtm_memberships.user_id = ?
+          AND vertigo_rtm_messages.created_at > vertigo_rtm_memberships.last_read_at
         SQL
-        joins(conversation: :conversation_user_relations).where(query, user_id).distinct
+        joins(conversation: :memberships).where(query, user_id).distinct
       end)
 
       accepts_nested_attributes_for :attachments

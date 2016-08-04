@@ -13,8 +13,12 @@ module Vertigo
         Vertigo::Rtm::UserPolicy
       end
 
-      def conversations
+      def vertigo_rtm_conversations
         Conversation.none
+      end
+
+      def vertigo_rtm_preference
+        Vertigo::Rtm::Preference.new
       end
     end
   end

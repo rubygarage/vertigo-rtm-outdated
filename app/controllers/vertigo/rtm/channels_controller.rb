@@ -34,7 +34,7 @@ module Vertigo
       end
 
       def invite
-        @channel.conversation_user_relations.create!(user_id: params[:member_id])
+        @channel.memberships.create!(user_id: params[:member_id])
         render_resource @channel
       end
 
@@ -46,7 +46,7 @@ module Vertigo
       end
 
       def channel_user_relation(user_id)
-        @channel.conversation_user_relations.find_by!(user_id: user_id)
+        @channel.memberships.find_by!(user_id: user_id)
       end
 
       def create_channel_params

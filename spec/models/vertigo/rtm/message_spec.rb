@@ -33,7 +33,7 @@ module Vertigo
         let(:user) { create(:user) }
 
         before do
-          membership = create(:vertigo_rtm_conversation_user_relation,
+          membership = create(:vertigo_rtm_membership,
                               user: user,
                               conversation: conversation)
           membership.update_column(:last_read_at, 3.days.ago)

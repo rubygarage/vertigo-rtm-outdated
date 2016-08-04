@@ -9,10 +9,30 @@ module Vertigo
         member_or_creator?
       end
 
+      def create?
+        true
+      end
+
+      def show?
+        member_or_creator?
+      end
+
+      def update?
+        creator?
+      end
+
+      def archive?
+        creator?
+      end
+
       private
 
+      def creator?
+        record.creator_id == user.id
+      end
+
       def member_or_creator?
-        record.creator_id == user.id || user.conversations.exists?(record.id)
+        creator? || record.members.exists?(user.id)
       end
     end
   end
