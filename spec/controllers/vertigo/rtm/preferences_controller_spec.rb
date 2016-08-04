@@ -40,6 +40,11 @@ module Vertigo
             before { get :show, params: { conversation_id: conversation.id } }
 
             it { expect(response).to be_ok }
+
+            it do
+              expect(response).to serialize_object(user.vertigo_rtm_conversation_preference(conversation.id))
+                .with(Vertigo::Rtm::PreferenceSerializer)
+            end
           end
 
           context 'fails with unauthorized error' do
@@ -80,8 +85,9 @@ module Vertigo
 
             it { expect(response).to be_ok }
 
-            it 'renders preference json' do
-              expect(json_response[:data][:attributes][:muted]).to eq(params[:preference][:muted])
+            it do
+              expect(response).to serialize_object(user.vertigo_rtm_preference)
+                .with(Vertigo::Rtm::PreferenceSerializer)
             end
           end
 
@@ -101,8 +107,9 @@ module Vertigo
 
             it { expect(response).to be_ok }
 
-            it 'renders preference json' do
-              expect(json_response[:data][:attributes][:muted]).to eq(params[:preference][:muted])
+            it do
+              expect(response).to serialize_object(user.vertigo_rtm_conversation_preference(conversation.id))
+                .with(Vertigo::Rtm::PreferenceSerializer)
             end
           end
 
