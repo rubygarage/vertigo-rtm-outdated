@@ -1,20 +1,8 @@
 module Vertigo
   module Rtm
-    class ChannelPolicy < ApplicationPolicy
-      def create?
-        true
-      end
-
-      def show?
-        member?
-      end
-
-      def update?
-        creator?
-      end
-
+    class ChannelPolicy < ConversationPolicy
       def leave?
-        member?
+        member_or_creator?
       end
 
       def kick?
@@ -22,21 +10,15 @@ module Vertigo
       end
 
       def invite?
-        member?
+        member_or_creator?
       end
 
-      def destroy?
+      def archive?
         creator?
       end
 
-      private
-
-      def creator?
-        record.creator_id == user.id
-      end
-
-      def member?
-        creator? || record.members.exists?(id: user.id)
+      def unarchive?
+        creator?
       end
     end
   end

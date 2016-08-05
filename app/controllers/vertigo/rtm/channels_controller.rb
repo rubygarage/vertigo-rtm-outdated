@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     class ChannelsController < ApplicationController
-      before_action :set_and_authorize_channel, only: [:show, :update, :destroy, :leave, :kick, :invite]
+      before_action :set_and_authorize_channel, only: [:show, :update, :archive, :unarchive, :leave, :kick, :invite]
 
       def create
         authorize Channel
@@ -18,9 +18,14 @@ module Vertigo
         render_resource @channel
       end
 
-      def destroy
-        @channel.destroy!
-        head :no_content
+      def archive
+        @channel.archived!
+        head :ok
+      end
+
+      def unarchive
+        @channel.unarchived!
+        head :ok
       end
 
       def leave

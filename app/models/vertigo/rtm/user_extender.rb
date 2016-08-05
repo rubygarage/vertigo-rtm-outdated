@@ -19,7 +19,9 @@ module Vertigo
 
         has_many :vertigo_rtm_own_conversations,
                  class_name: 'Vertigo::Rtm::Conversation',
-                 foreign_key: :creator_id
+                 foreign_key: :creator_id,
+                 dependent: :destroy,
+                 inverse_of: :creator
 
         has_many :vertigo_rtm_groups,
                  class_name: 'Vertigo::Rtm::Group',
@@ -43,8 +45,9 @@ module Vertigo
 
         has_many :vertigo_rtm_messages,
                  dependent: :destroy,
-                 foreign_key: :user_id,
-                 class_name: 'Vertigo::Rtm::Message'
+                 foreign_key: :creator_id,
+                 class_name: 'Vertigo::Rtm::Message',
+                 inverse_of: :creator
 
         has_many :vertigo_rtm_attachments,
                  through: :vertigo_rtm_messages,

@@ -8,14 +8,18 @@ module Vertigo
       let(:user) { create(:user) }
       let(:conversation) { create(:vertigo_rtm_conversation, creator: user) }
 
-      include_context 'controller error responses'
+      include_context :controller_error_responses
 
       before { allow(controller).to receive(:vertigo_rtm_current_user).and_return(user) }
 
       context 'GET show' do
+        let(:perform_request) { get :show, params: request_params }
+
         context 'userable' do
+          let(:request_params) { {} }
+
           context 'shows preference' do
-            before { get :show }
+            before { perform_request }
 
             it { expect(response).to be_ok }
 
@@ -25,19 +29,14 @@ module Vertigo
             end
           end
 
-          context 'fails with unauthorized error' do
-            before do
-              allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-              get :show
-            end
-
-            it_behaves_like 'API error', :unauthorized
-          end
+          it_behaves_like :it_handles_unauthorized_user
         end
 
         context 'membershipable' do
+          let(:request_params) { { conversation_id: conversation.id } }
+
           context 'shows preference' do
-            before { get :show, params: { conversation_id: conversation.id } }
+            before { perform_request }
 
             it { expect(response).to be_ok }
 
@@ -47,22 +46,9 @@ module Vertigo
             end
           end
 
-          context 'fails with unauthorized error' do
-            before do
-              allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-              get :show, params: { conversation_id: conversation.id }
-            end
-
-            it_behaves_like 'API error', :unauthorized
-          end
-
-          context 'fails with not found error' do
-            before do
-              allow(controller).to receive(:vertigo_rtm_current_user).and_return(create(:user))
-              get :show, params: { conversation_id: conversation.id }
-            end
-
-            it_behaves_like 'API error', :not_found
+          it_behaves_like :it_handles_unauthorized_user
+          it_behaves_like :it_handles_not_found_error do
+            let(:request_params) { { conversation_id: 1234 } }
           end
         end
       end
@@ -79,9 +65,12 @@ module Vertigo
           }
         end
 
+        let(:perform_request) { put :update, params: request_params }
+
         context 'userable' do
+          let(:request_params) { params }
           context 'updates preference' do
-            before { put :update, params: params }
+            before { perform_request }
 
             it { expect(response).to be_ok }
 
@@ -91,19 +80,14 @@ module Vertigo
             end
           end
 
-          context 'fails with unauthorized error' do
-            before do
-              allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-              put :update, params: params
-            end
-
-            it_behaves_like 'API error', :unauthorized
-          end
+          it_behaves_like :it_handles_unauthorized_user
         end
 
         context 'membershipable' do
+          let(:request_params) { params.merge(conversation_id: conversation.id) }
+
           context 'shows preference' do
-            before { put :update, params: params.merge(conversation_id: conversation.id) }
+            before { perform_request }
 
             it { expect(response).to be_ok }
 
@@ -113,14 +97,7 @@ module Vertigo
             end
           end
 
-          context 'fails with unauthorized error' do
-            before do
-              allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-              put :update, params: params.merge(conversation_id: conversation.id)
-            end
-
-            it_behaves_like 'API error', :unauthorized
-          end
+          it_behaves_like :it_handles_unauthorized_user
         end
       end
     end

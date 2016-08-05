@@ -9,218 +9,164 @@ module Vertigo
       let(:new_member) { create(:user) }
       let(:channel) { create(:vertigo_rtm_channel, creator: creator, members: [member]) }
       let(:channel_attributes) { attributes_for(:vertigo_rtm_channel) }
-      include_context 'controller error responses'
+      include_context :controller_error_responses
 
       before { allow(controller).to receive(:vertigo_rtm_current_user).and_return(creator) }
 
       context 'POST create' do
+        let(:request_params) { { channel: { name: channel_attributes[:name] } } }
+        let(:perform_request) { post :create, params: request_params }
         context 'creates channel' do
-          before { post :create, params: { channel: { name: channel_attributes[:name] } } }
-
-          it { expect(response).to be_created }
+          it 'responds with created http status' do
+            perform_request
+            expect(response).to be_created
+          end
 
           it 'renders channel json' do
+            perform_request
             expect(json_response[:data][:attributes][:name]).to eq(channel_attributes[:name])
           end
         end
 
-        context 'fails with unauthorized error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-            post :create, params: { channel: { name: channel_attributes[:name] } }
-          end
-
-          it_behaves_like 'API error', :unauthorized
-        end
-
-        context 'fails with unprocessable entity error' do
-          before { post :create, params: { channel: { name: '' } } }
-
-          it_behaves_like 'API error', :unprocessable_entity
+        it_behaves_like :it_handles_unauthorized_user
+        it_behaves_like :it_handles_unprocessable_entity_error do
+          let(:request_params) { { channel: { name: '' } } }
         end
       end
 
       context 'GET show' do
-        context 'shows channel' do
-          before { get :show, params: { id: channel.id } }
-
-          it { expect(response).to be_ok }
+        let(:request_params) { { id: channel.id } }
+        let(:perform_request) { get :show, params: request_params }
+        it 'responds with ok status' do
+          perform_request
+          expect(response).to be_ok
         end
 
-        context 'fails with unauthorized error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-            get :show, params: { id: channel.id }
-          end
-
-          it_behaves_like 'API error', :unauthorized
-        end
-
-        context 'fails with forbidden error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(create(:user))
-            get :show, params: { id: channel.id }
-          end
-
-          it_behaves_like 'API error', :forbidden
-        end
+        it_behaves_like :it_handles_unauthorized_user
+        it_behaves_like :it_handles_forbidden_error
       end
 
       context 'PUT update' do
-        context 'updates channel' do
-          before { put :update, params: { id: channel.id, channel: { name: channel_attributes[:name] } } }
+        let(:request_params) { { id: channel.id, channel: { name: channel_attributes[:name] } } }
+        let(:perform_request) { put :update, params: request_params }
 
-          it { expect(response).to be_ok }
-
-          it 'renders channel json' do
-            expect(json_response[:data][:attributes][:name]).to eq(channel_attributes[:name])
-          end
+        it 'responds with ok status' do
+          perform_request
+          expect(response).to be_ok
         end
 
-        context 'fails with unauthorized error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-            put :update, params: { id: channel.id, channel: { name: channel_attributes[:name] } }
-          end
-
-          it_behaves_like 'API error', :unauthorized
+        it 'renders channel json' do
+          perform_request
+          expect(json_response[:data][:attributes][:name]).to eq(channel_attributes[:name])
         end
 
-        context 'fails with forbidden error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(member)
-            put :update, params: { id: channel.id, channel: { name: channel_attributes[:name] } }
-          end
-
-          it_behaves_like 'API error', :forbidden
-        end
-
-        context 'fails with unprocessable entity error' do
-          before { put :update, params: { id: channel.id, channel: { name: '' } } }
-
-          it_behaves_like 'API error', :unprocessable_entity
+        it_behaves_like :it_handles_unauthorized_user
+        it_behaves_like :it_handles_forbidden_error
+        it_behaves_like :it_handles_unprocessable_entity_error do
+          let(:request_params) { { id: channel.id, channel: { name: '' } } }
         end
       end
 
-      context 'DELETE destroy' do
-        context 'destroys channel' do
-          before { delete :destroy, params: { id: channel.id } }
+      context 'PUT archive' do
+        let(:request_params) { { id: channel.id } }
+        let(:perform_request) { put :archive, params: request_params }
 
-          it { expect(response).to be_no_content }
-          it { expect(response.body).to be_empty }
+        it 'responds with ok status' do
+          perform_request
+          expect(response).to be_ok
         end
 
-        context 'fails with unauthorized error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-            delete :destroy, params: { id: channel.id }
-          end
-
-          it_behaves_like 'API error', :unauthorized
+        it 'returns empty body' do
+          perform_request
+          expect(response.body).to be_empty
         end
 
-        context 'fails with forbidden error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(member)
-            delete :destroy, params: { id: channel.id }
-          end
+        it_behaves_like :it_handles_unauthorized_user
+        it_behaves_like :it_handles_forbidden_error
+        it_behaves_like :it_handles_unprocessable_entity_error do
+          let(:channel) { create(:vertigo_rtm_channel, :archived, creator: creator, members: [member]) }
+        end
+      end
 
-          it_behaves_like 'API error', :forbidden
+      context 'PUT unarchive' do
+        let(:request_params) { { id: channel.id } }
+        let(:channel) { create(:vertigo_rtm_channel, :archived, creator: creator, members: [member]) }
+        let(:perform_request) { put :unarchive, params: request_params }
+
+        it 'responds with ok status' do
+          perform_request
+          expect(response).to be_ok
+        end
+
+        it 'returns empty body' do
+          perform_request
+          expect(response.body).to be_empty
+        end
+
+        it_behaves_like :it_handles_unauthorized_user
+        it_behaves_like :it_handles_forbidden_error
+        it_behaves_like :it_handles_unprocessable_entity_error do
+          let(:channel) { create(:vertigo_rtm_channel, :unarchived, creator: creator, members: [member]) }
         end
       end
 
       context 'PUT leave' do
-        context 'leaves channel with success' do
-          before { put :leave, params: { id: channel.id } }
+        let(:request_params) { { id: channel.id } }
+        let(:perform_request) { put :leave, params: request_params }
 
-          it { expect(response).to be_ok }
-          it { expect(response.body).to be_empty }
+        it 'responds with ok status' do
+          perform_request
+          expect(response).to be_ok
         end
 
-        context 'fails with unauthorized error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-            put :leave, params: { id: channel.id }
-          end
-
-          it_behaves_like 'API error', :unauthorized
+        it 'returns empty body' do
+          perform_request
+          expect(response.body).to be_empty
         end
 
-        context 'fails with forbidden error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(create(:user))
-            put :leave, params: { id: channel.id }
-          end
-
-          it_behaves_like 'API error', :forbidden
-        end
+        it_behaves_like :it_handles_unauthorized_user
+        it_behaves_like :it_handles_forbidden_error
       end
 
       context 'PUT kick' do
-        context 'kicks member with success' do
-          before { put :kick, params: { id: channel.id, member_id: member.id } }
+        let(:request_params) { { id: channel.id, member_id: member.id } }
+        let(:perform_request) { put :kick, params: request_params }
 
-          it { expect(response).to be_ok }
-          it { expect(response.body).to be_empty }
+        it 'responds with status ok' do
+          perform_request
+          expect(response).to be_ok
         end
 
-        context 'fails with unauthorized error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-            put :kick, params: { id: channel.id, member_id: member.id }
-          end
-
-          it_behaves_like 'API error', :unauthorized
+        it 'returns empty body' do
+          perform_request
+          expect(response.body).to be_empty
         end
 
-        context 'fails with forbidden error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(member)
-            put :kick, params: { id: channel.id, member_id: member.id }
-          end
-
-          it_behaves_like 'API error', :forbidden
-        end
-
-        context 'fails with not found error' do
-          before { put :kick, params: { id: channel.id, member_id: 1234 } }
-
-          it_behaves_like 'API error', :not_found
+        it_behaves_like :it_handles_unauthorized_user
+        it_behaves_like :it_handles_forbidden_error
+        it_behaves_like :it_handles_not_found_error do
+          let(:request_params) { { id: channel.id, member_id: 1234 } }
         end
       end
 
       context 'PUT invite' do
-        context 'invites user with success' do
-          before { put :invite, params: { id: channel.id, member_id: new_member.id } }
+        let(:request_params) { { id: channel.id, member_id: new_member.id } }
+        let(:perform_request) { put :invite, params: request_params }
 
-          it { expect(response).to be_ok }
-          it 'renders channel json' do
-            expect(json_response[:data][:attributes][:name]).to eq(channel.name)
-          end
+        it 'responds with ok status' do
+          perform_request
+          expect(response).to be_ok
         end
 
-        context 'fails with unauthorized error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(nil)
-            put :invite, params: { id: channel.id, member_id: new_member.id }
-          end
-
-          it_behaves_like 'API error', :unauthorized
+        it 'renders channel json' do
+          perform_request
+          expect(json_response[:data][:attributes][:name]).to eq(channel.name)
         end
 
-        context 'fails with forbidden error' do
-          before do
-            allow(controller).to receive(:vertigo_rtm_current_user).and_return(create(:user))
-            put :invite, params: { id: channel.id, member_id: new_member.id }
-          end
-
-          it_behaves_like 'API error', :forbidden
-        end
-
-        context 'fails with unprocessable entity error' do
-          before { put :invite, params: { id: channel.id, member_id: 1234 } }
-
-          it_behaves_like 'API error', :unprocessable_entity
+        it_behaves_like :it_handles_unauthorized_user
+        it_behaves_like :it_handles_forbidden_error
+        it_behaves_like :it_handles_unprocessable_entity_error do
+          let(:request_params) { { id: channel.id, member_id: 1234 } }
         end
       end
     end

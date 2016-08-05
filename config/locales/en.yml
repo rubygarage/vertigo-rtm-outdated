@@ -8,3 +8,4 @@ en:
         unprocessable_entity: Unprocessable Entity
         internal_server_error: Internal Server Error
         unauthorized_details: You are not authorized
+        has_been_already_state: "has been already %{state}"

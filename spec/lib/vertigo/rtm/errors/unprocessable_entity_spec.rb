@@ -7,8 +7,8 @@ module Vertigo
       let(:details) { Faker::Lorem.sentence }
       subject(:error) { Errors::UnprocessableEntity.new(source_parameter: attribute, details: details) }
 
-      include_context 'Error object'
-      it_behaves_like 'has error properties',
+      include_context :error_object
+      it_behaves_like :has_error_properties,
                       status: 'unprocessable_entity',
                       code: '422',
                       title: I18n.t('errors.unprocessable_entity', scope: 'vertigo.rtm')

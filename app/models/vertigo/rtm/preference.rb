@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class Preference < ApplicationRecord
+    class Preference < Vertigo::Rtm::ApplicationRecord
       belongs_to :preferenceable, polymorphic: true
 
       def userable?

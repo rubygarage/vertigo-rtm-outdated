@@ -6,8 +6,8 @@ module Vertigo
       subject(:error) { Errors::Unauthorized.new }
       let(:details) { I18n.t('errors.unauthorized_details', scope: 'vertigo.rtm') }
 
-      include_context 'Error object'
-      it_behaves_like 'has error properties',
+      include_context :error_object
+      it_behaves_like :has_error_properties,
                       status: 'unauthorized',
                       code: '401',
                       title: I18n.t('errors.unauthorized', scope: 'vertigo.rtm')

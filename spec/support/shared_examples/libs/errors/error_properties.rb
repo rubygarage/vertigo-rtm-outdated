@@ -1,5 +1,5 @@
-RSpec.shared_context 'Error object' do
-  RSpec.shared_examples 'has error properties' do |properties|
+RSpec.shared_context :error_object do
+  RSpec.shared_examples :has_error_properties do |properties|
     it "has status #{properties[:status]}" do
       expect(error.status).to eq(properties[:status])
     end

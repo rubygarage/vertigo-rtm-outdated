@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class Conversation < ApplicationRecord
+    class Conversation < Vertigo::Rtm::ApplicationRecord
       enum state: { unarchived: 0, archived: 1 }
 
       has_many   :memberships, dependent: :destroy, inverse_of: :conversation
@@ -10,7 +10,7 @@ module Vertigo
 
       validates :name, uniqueness: true, presence: true
 
-      after_commit :ensure_user_conversation_relation, on: [:create, :update]
+      after_commit :ensure_user_conversation_relation, on: [:create]
 
       def group?
         self.class.name.demodulize == 'Group'
