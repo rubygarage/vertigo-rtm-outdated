@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class PreferencePolicy < ApplicationPolicy
+    class PreferencePolicy < Vertigo::Rtm::ApplicationPolicy
       def show?
         can_moderate?
       end

@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class ChannelPolicy < ConversationPolicy
+    class ChannelPolicy < Vertigo::Rtm::ConversationPolicy
       def leave?
         member_or_creator?
       end

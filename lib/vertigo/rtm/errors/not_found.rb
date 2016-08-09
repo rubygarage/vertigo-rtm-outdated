@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     module Errors
-      class NotFound < Error
+      class NotFound < Vertigo::Rtm::Error
         def status
           'not_found'
         end

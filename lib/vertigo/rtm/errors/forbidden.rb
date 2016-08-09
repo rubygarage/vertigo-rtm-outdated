@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     module Errors
-      class Forbidden < Error
+      class Forbidden < Vertigo::Rtm::Error
         def status
           'forbidden'
         end

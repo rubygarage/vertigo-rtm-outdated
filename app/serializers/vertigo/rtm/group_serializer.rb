@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class GroupSerializer < ConversationSerializer
+    class GroupSerializer < Vertigo::Rtm::ConversationSerializer
       type 'groups'
 
       attribute :name do

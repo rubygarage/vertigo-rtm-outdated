@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class ConversationSerializer < ApplicationSerializer
+    class ConversationSerializer < Vertigo::Rtm::ApplicationSerializer
       type 'conversations'
 
       attributes :name, :state, :members_count, :messages_count

@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class MessageSerializer < ApplicationSerializer
+    class MessageSerializer < Vertigo::Rtm::ApplicationSerializer
       attributes :text,
                  :creator_id,
                  :conversation_id

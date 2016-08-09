@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class ChannelSerializer < ConversationSerializer
+    class ChannelSerializer < Vertigo::Rtm::ConversationSerializer
       type 'channels'
 
       link :self do
