@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class AttachmentsController < ApplicationController
+    class AttachmentsController < Vertigo::Rtm::ApplicationController
       def index
       end
     end

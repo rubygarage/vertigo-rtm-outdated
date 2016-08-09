@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class GroupPolicy < ConversationPolicy
+    class GroupPolicy < Vertigo::Rtm::ConversationPolicy
     end
   end
 end

@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class ConversationPolicy < ApplicationPolicy
+    class ConversationPolicy < Vertigo::Rtm::ApplicationPolicy
       def index_message?
         member_or_creator?
       end

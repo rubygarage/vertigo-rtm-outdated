@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class AttachmentSerializer < ApplicationSerializer
+    class AttachmentSerializer < Vertigo::Rtm::ApplicationSerializer
       attributes :attachment
     end
   end

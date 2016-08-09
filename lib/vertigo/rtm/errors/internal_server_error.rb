@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     module Errors
-      class InternalServerError < Error
+      class InternalServerError < Vertigo::Rtm::Error
         def status
           'internal_server_error'
         end

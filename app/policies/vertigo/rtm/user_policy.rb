@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class UserPolicy < ApplicationPolicy
+    class UserPolicy < Vertigo::Rtm::ApplicationPolicy
       class Scope < Scope
         def resolve
           scope.all

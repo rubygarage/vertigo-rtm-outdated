@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class PreferenceSerializer < ApplicationSerializer
+    class PreferenceSerializer < Vertigo::Rtm::ApplicationSerializer
       type 'preferences'
 
       attributes :notify_on_message, :notify_on_mention, :highlight_words, :muted

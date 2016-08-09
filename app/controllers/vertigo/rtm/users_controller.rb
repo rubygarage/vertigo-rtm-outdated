@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class UsersController < ApplicationController
+    class UsersController < Vertigo::Rtm::ApplicationController
       def index
         @users = policy_scope(Vertigo::Rtm.user_class)
         render json: @users,

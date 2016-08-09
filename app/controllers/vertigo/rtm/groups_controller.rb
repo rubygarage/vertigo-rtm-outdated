@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class GroupsController < ApplicationController
+    class GroupsController < Vertigo::Rtm::ApplicationController
       before_action :set_and_authorize_group, only: [:show]
 
       def create

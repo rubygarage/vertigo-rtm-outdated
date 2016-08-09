@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class PreferencesController < ApplicationController
+    class PreferencesController < Vertigo::Rtm::ApplicationController
       before_action :set_and_authorize_preference
 
       def show
