@@ -8,4 +8,6 @@ Vertigo.Rtm.Channel.EventChannel = (function () {
       received: function() {}
     });
   }
-});
+
+  return EventChannel;
+})();

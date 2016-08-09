@@ -19,4 +19,4 @@ Vertigo.Rtm.Client = (function () {
   };
 
   return Client;
-});
+})();

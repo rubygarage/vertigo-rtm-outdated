@@ -281,6 +281,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   generator_spec
+  jquery-rails
   overcommit
   pry-byebug
   puma
