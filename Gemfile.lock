@@ -4,7 +4,6 @@ PATH
     vertigo-rtm (0.1.0)
       active_model_serializers (~> 0.10.0)
       carrierwave (~> 0.11.2)
-      jquery-rails
       pundit (~> 1.1)
       rails (~> 5.0.0)
 
@@ -279,6 +278,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   generator_spec
+  jquery-rails
   overcommit
   pry-byebug
   puma
