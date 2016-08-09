@@ -5,23 +5,18 @@
 
 namespace('Vertigo.Rtm.Client');
 
-Vertigo.Rtm._actionCable = function() {
-  this.instance = null;
+Vertigo.Rtm.createConsumer = function(options) {
+  Vertigo.Rtm.actionCable || (Vertigo.Rtm.actionCable = {});
 
-  var getInstance = function () {
-    if (!this.instance) {
-      this.instance = createInstance();
-    }
+  Vertigo.Rtm.actionCable.cable = ActionCable.createConsumer(options);
 
-    return this.instance;
-  }
-
-  var createInstance = function () {
-    this.instance || (this.instance = {});
-    this.instance.cable = ActionCable.createConsumer();
-
-    return this.instance;
-  }
-
-  return getInstance();
+  return;
 };
+
+Vertigo.Rtm.Client = (function () {
+  function Client (options) {
+    Vertigo.Rtm.createConsumer(options);
+  };
+
+  return Client;
+});

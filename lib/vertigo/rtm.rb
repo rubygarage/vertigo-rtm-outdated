@@ -3,6 +3,7 @@ require 'active_model_serializers'
 require 'carrierwave'
 require 'pundit'
 require 'will_paginate'
+require 'jquery-rails'
 
 module Vertigo
   module Rtm
