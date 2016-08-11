@@ -2,8 +2,11 @@ require 'vertigo/rtm/engine'
 require 'active_model_serializers'
 require 'carrierwave'
 require 'pundit'
+<<<<<<< 548cdf3edcbb3ac7c1c3258ecf3af3793976f0eb
 require 'will_paginate'
 require 'jquery-rails'
+=======
+>>>>>>> Add dependency `puma` & update Channel
 
 module Vertigo
   module Rtm

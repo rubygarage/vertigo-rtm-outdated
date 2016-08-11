@@ -20,4 +20,6 @@ Vertigo::Rtm::Engine.routes.draw do
   end
 
   resources :groups, only: [:create, :show]
+
+  mount ActionCable.server => '/cable'
 end
