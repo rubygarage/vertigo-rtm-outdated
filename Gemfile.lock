@@ -4,6 +4,7 @@ PATH
     vertigo-rtm (0.1.0)
       active_model_serializers (~> 0.10.0)
       carrierwave (~> 0.11.2)
+      puma (~> 3.6)
       pundit (~> 1.1)
       rails (~> 5.0.0)
 
@@ -281,7 +282,6 @@ DEPENDENCIES
   jquery-rails
   overcommit
   pry-byebug
-  puma
   rspec-rails
   rubocop
   rubycritic

@@ -2,7 +2,6 @@ require 'vertigo/rtm/engine'
 require 'active_model_serializers'
 require 'carrierwave'
 require 'pundit'
-require 'jquery-rails'
 
 module Vertigo
   module Rtm
