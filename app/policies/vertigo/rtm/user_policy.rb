@@ -3,7 +3,7 @@ module Vertigo
     class UserPolicy < Vertigo::Rtm::ApplicationPolicy
       class Scope < Scope
         def resolve
-          scope.all
+          scope.where.not(id: user.id)
         end
       end
 
