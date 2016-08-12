@@ -1,6 +1,8 @@
 module Vertigo
   module Rtm
-    class UserSerializer < Vertigo::Rtm::ApplicationSerializer
+    class UserSerializer < ApplicationSerializer
+      type 'users'
+
       attributes Vertigo::Rtm.user_name_column
 
       attribute :status do

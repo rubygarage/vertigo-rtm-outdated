@@ -22,7 +22,7 @@ module Vertigo
 
         it 'returns users except current user' do
           user = create(:user)
-          expect(policy_scope).to eq([user])
+          expect(policy_scope).to match_array([user])
         end
       end
     end
