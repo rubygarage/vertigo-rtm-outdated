@@ -5,6 +5,8 @@ RSpec::Matchers.define :serialize_resource do |expected|
       adapter: ActiveModelSerializers::Adapter::JsonApi
     }.merge(@resource_options)
 
+    options.merge!(@extra_options) if @extra_options
+
     ActiveModelSerializers::SerializableResource.new(expected, options).to_json == response.body
   end
 
@@ -20,5 +22,9 @@ RSpec::Matchers.define :serialize_resource do |expected|
       when :singular
         { serializer: @serializer_klass, scope: controller }
       end
+  end
+
+  chain :and_options do |extra_options|
+    @extra_options = extra_options
   end
 end
