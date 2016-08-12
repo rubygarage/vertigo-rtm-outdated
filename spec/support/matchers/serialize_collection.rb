@@ -1,9 +1,10 @@
-RSpec::Matchers.define :serialize_object do |expected|
+RSpec::Matchers.define :serialize_collection do |expected|
   match do |response|
     options = {
       key_transform: :camel_lower,
       adapter: ActiveModelSerializers::Adapter::JsonApi,
-      serializer: @serializer_klass,
+      each_serializer: @serializer_klass,
+      serialization_context: controller,
       scope: controller
     }
 

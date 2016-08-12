@@ -8,6 +8,8 @@ module Vertigo
       let(:creator) { create(:user) }
       let(:members) { create_list(:user, 3) }
 
+      it_behaves_like :per_page
+
       context 'associations' do
         it { is_expected.to belong_to(:creator).class_name(Vertigo::Rtm.user_class.to_s) }
         it { is_expected.to have_many(:memberships).dependent(:destroy) }

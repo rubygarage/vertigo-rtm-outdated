@@ -5,6 +5,8 @@ module Vertigo
     RSpec.describe Channel, type: :model do
       subject(:channel) { create(:vertigo_rtm_channel) }
 
+      it_behaves_like :per_page
+
       context 'enums' do
         it { is_expected.to define_enum_for(:state).with([:unarchived, :archived]) }
       end

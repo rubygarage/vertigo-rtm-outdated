@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'active_model_serializers', '~> 0.10.0'
   s.add_dependency 'carrierwave', '~> 0.11.2'
   s.add_dependency 'pundit', '~> 1.1'
+  s.add_dependency 'will_paginate', '~> 3.1.0'
 
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rspec-rails'
