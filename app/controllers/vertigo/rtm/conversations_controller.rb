@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class ConversationsController < ApplicationController
+    class ConversationsController < Vertigo::Rtm::ApplicationController
       def index
       end
     end

@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class MessagePolicy < ApplicationPolicy
+    class MessagePolicy < Vertigo::Rtm::ApplicationPolicy
       def update?
         creator?
       end

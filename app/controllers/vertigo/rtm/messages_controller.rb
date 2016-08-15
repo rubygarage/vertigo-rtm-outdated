@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class MessagesController < ApplicationController
+    class MessagesController < Vertigo::Rtm::ApplicationController
       before_action :set_conversation
       before_action :set_and_authorize_message, only: [:update, :destroy]
 

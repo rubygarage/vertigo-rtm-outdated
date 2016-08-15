@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     module Errors
-      class UnprocessableEntity < Error
+      class UnprocessableEntity < Vertigo::Rtm::Error
         def self.from_record(record)
           record.errors.map do |attribute, message|
             new(source_parameter: attribute, details: message)

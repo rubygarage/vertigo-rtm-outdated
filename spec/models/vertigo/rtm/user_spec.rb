@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   subject { create(:user) }
 
   context 'enums' do
-    it { is_expected.to define_enum_for(:vertigo_rtm_status).with([:away, :online, :dnd]) }
+    it { is_expected.to define_enum_for(:vertigo_rtm_status).with([:offline, :away, :online, :dnd]) }
   end
 
   context 'associations' do
@@ -98,6 +98,58 @@ RSpec.describe User, type: :model do
         end
 
         it { expect { subject.vertigo_rtm_conversation_preference(0) }.to raise_error(ActiveRecord::RecordNotFound) }
+      end
+    end
+  end
+
+  context 'callbacks' do
+    context 'after commit' do
+      context '#ensure_broadcast_appearance' do
+        context 'on create' do
+          let(:user) { build(:user) }
+
+          it 'queues the job' do
+            expect(Vertigo::Rtm::AppearanceBroadcastJob).to receive(:perform_later).with(user)
+            user.save
+          end
+
+          it 'is called after commit' do
+            allow(user).to receive(:ensure_broadcast_appearance)
+
+            user.valid?
+            expect(user).not_to have_received(:ensure_broadcast_appearance)
+            user.run_callbacks(:save)
+            expect(user).not_to have_received(:ensure_broadcast_appearance)
+            user.save
+            expect(user).to have_received(:ensure_broadcast_appearance)
+          end
+        end
+
+        context 'on update' do
+          let(:user) { create(:user) }
+
+          it 'queues the job' do
+            expect(Vertigo::Rtm::AppearanceBroadcastJob).to receive(:perform_later).with(user)
+            user.away!
+          end
+
+          it 'does not queue the job' do
+            expect(Vertigo::Rtm::AppearanceBroadcastJob).not_to receive(:perform_later).with(user)
+            user.update_attributes(name: Faker::Internet.user_name)
+          end
+
+          it 'is called after commit' do
+            user.vertigo_rtm_status = :away
+            allow(user).to receive(:ensure_broadcast_appearance)
+
+            user.valid?
+            expect(user).not_to have_received(:ensure_broadcast_appearance)
+            user.run_callbacks(:save)
+            expect(user).not_to have_received(:ensure_broadcast_appearance)
+            user.save
+            expect(user).to have_received(:ensure_broadcast_appearance)
+          end
+        end
       end
     end
   end

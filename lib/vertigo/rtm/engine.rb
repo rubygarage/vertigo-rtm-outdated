@@ -3,7 +3,9 @@ module Vertigo
     class Engine < ::Rails::Engine
       isolate_namespace Vertigo::Rtm
 
-      config.autoload_paths << root.join('lib')
+      %w(app/channels app/jobs lib).each do |path|
+        config.autoload_paths << root.join(path)
+      end
 
       config.generators do |g|
         g.test_framework      :rspec,        fixture: false

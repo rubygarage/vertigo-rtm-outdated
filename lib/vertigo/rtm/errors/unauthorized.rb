@@ -1,7 +1,7 @@
 module Vertigo
   module Rtm
     module Errors
-      class Unauthorized < Error
+      class Unauthorized < Vertigo::Rtm::Error
         def status
           'unauthorized'
         end

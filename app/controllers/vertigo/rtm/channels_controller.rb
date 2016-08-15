@@ -1,6 +1,6 @@
 module Vertigo
   module Rtm
-    class ChannelsController < ApplicationController
+    class ChannelsController < Vertigo::Rtm::ApplicationController
       before_action :set_and_authorize_channel, only: [:show, :update, :archive, :unarchive, :leave, :kick, :invite]
 
       def create
