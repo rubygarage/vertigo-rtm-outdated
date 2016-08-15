@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Vertigo
   module Rtm
-    describe ErrorsDetector do
+    RSpec.describe ErrorsDetector do
       let(:service) { ErrorsDetector.new(exception) }
 
       context 'with ActiveRecord::RecordNotFound' do

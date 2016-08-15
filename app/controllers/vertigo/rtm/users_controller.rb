@@ -3,25 +3,24 @@ module Vertigo
     class UsersController < Vertigo::Rtm::ApplicationController
       def index
         @users = policy_scope(Vertigo::Rtm.user_class)
-        render json: @users,
-               each_serializer: Vertigo::Rtm::UserSerializer,
-               root: :data
+
+        @users = Vertigo::Rtm::UserQuery.new(@users, params).results
+
+        render_resource @users, each_serializer: Vertigo::Rtm::UserSerializer
       end
 
       def update
         authorize vertigo_rtm_current_user
 
-        vertigo_rtm_current_user.update_attributes(user_params)
+        vertigo_rtm_current_user.update!(user_params)
 
-        render json: vertigo_rtm_current_user,
-               serializer: Vertigo::Rtm::UserSerializer,
-               root: :data
+        render_resource vertigo_rtm_current_user, serializer: Vertigo::Rtm::UserSerializer
       end
 
       private
 
       def user_params
-        params.require(:user).permit(:status)
+        params.require(:user).permit(:vertigo_rtm_status)
       end
     end
   end

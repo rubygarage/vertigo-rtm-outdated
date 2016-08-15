@@ -24,8 +24,9 @@ module Vertigo
             it { expect(response).to be_ok }
 
             it do
-              expect(response).to serialize_object(user.vertigo_rtm_preference)
+              expect(response).to serialize_resource(user.vertigo_rtm_preference)
                 .with(Vertigo::Rtm::PreferenceSerializer)
+                .as(:singular)
             end
           end
 
@@ -41,8 +42,9 @@ module Vertigo
             it { expect(response).to be_ok }
 
             it do
-              expect(response).to serialize_object(user.vertigo_rtm_conversation_preference(conversation.id))
+              expect(response).to serialize_resource(user.vertigo_rtm_conversation_preference(conversation.id))
                 .with(Vertigo::Rtm::PreferenceSerializer)
+                .as(:singular)
             end
           end
 
@@ -75,8 +77,9 @@ module Vertigo
             it { expect(response).to be_ok }
 
             it do
-              expect(response).to serialize_object(user.vertigo_rtm_preference)
+              expect(response).to serialize_resource(user.vertigo_rtm_preference)
                 .with(Vertigo::Rtm::PreferenceSerializer)
+                .as(:singular)
             end
           end
 
@@ -92,8 +95,9 @@ module Vertigo
             it { expect(response).to be_ok }
 
             it do
-              expect(response).to serialize_object(user.vertigo_rtm_conversation_preference(conversation.id))
+              expect(response).to serialize_resource(user.vertigo_rtm_conversation_preference(conversation.id))
                 .with(Vertigo::Rtm::PreferenceSerializer)
+                .as(:singular)
             end
           end
 
