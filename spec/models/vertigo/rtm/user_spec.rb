@@ -109,19 +109,9 @@ RSpec.describe User, type: :model do
           let(:user) { build(:user) }
 
           it 'queues the job' do
-            expect(Vertigo::Rtm::AppearanceBroadcastJob).to receive(:perform_later).with(user)
-            user.save
           end
 
           it 'is called after commit' do
-            allow(user).to receive(:ensure_broadcast_appearance)
-
-            user.valid?
-            expect(user).not_to have_received(:ensure_broadcast_appearance)
-            user.run_callbacks(:save)
-            expect(user).not_to have_received(:ensure_broadcast_appearance)
-            user.save
-            expect(user).to have_received(:ensure_broadcast_appearance)
           end
         end
 
@@ -129,25 +119,12 @@ RSpec.describe User, type: :model do
           let(:user) { create(:user) }
 
           it 'queues the job' do
-            expect(Vertigo::Rtm::AppearanceBroadcastJob).to receive(:perform_later).with(user)
-            user.away!
           end
 
           it 'does not queue the job' do
-            expect(Vertigo::Rtm::AppearanceBroadcastJob).not_to receive(:perform_later).with(user)
-            user.update_attributes(name: Faker::Internet.user_name)
           end
 
           it 'is called after commit' do
-            user.vertigo_rtm_status = :away
-            allow(user).to receive(:ensure_broadcast_appearance)
-
-            user.valid?
-            expect(user).not_to have_received(:ensure_broadcast_appearance)
-            user.run_callbacks(:save)
-            expect(user).not_to have_received(:ensure_broadcast_appearance)
-            user.save
-            expect(user).to have_received(:ensure_broadcast_appearance)
           end
         end
       end

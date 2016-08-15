@@ -58,7 +58,7 @@ module Vertigo
         protected
 
         def ensure_broadcast_appearance
-          Vertigo::Rtm::AppearanceBroadcastJob.perform_later(self)
+          ## TODO
         end
 
         def id_or_status_previously_changed?
