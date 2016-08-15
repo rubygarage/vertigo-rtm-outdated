@@ -23,7 +23,7 @@ module Vertigo
           context 'when passing `user_ids`' do
             it do
               arguments = [array_including(user), hash_including(user_ids: [user.id.to_s])]
-              expect(Vertigo::Rtm::UsersSearchQuery).to receive(:new).with(*arguments).and_call_original
+              expect(Vertigo::Rtm::UserQuery).to receive(:new).with(*arguments).and_call_original
               perform_request(user_ids: [user.id])
             end
 
@@ -34,14 +34,14 @@ module Vertigo
 
             it do
               perform_request(user_ids: [user.id])
-              expect(response).to serialize_collection(collection).with(Vertigo::Rtm::UserSerializer)
+              expect(response).to serialize_resource(collection).with(Vertigo::Rtm::UserSerializer).as(:plural)
             end
           end
 
           context 'when passing `q`' do
             it do
               arguments = [array_including(user), hash_including(q: user.name)]
-              expect(Vertigo::Rtm::UsersSearchQuery).to receive(:new).with(*arguments).and_call_original
+              expect(Vertigo::Rtm::UserQuery).to receive(:new).with(*arguments).and_call_original
               perform_request(q: user.name)
             end
 
@@ -52,7 +52,7 @@ module Vertigo
 
             it do
               perform_request(q: user.name)
-              expect(response).to serialize_collection(collection).with(Vertigo::Rtm::UserSerializer)
+              expect(response).to serialize_resource(collection).with(Vertigo::Rtm::UserSerializer).as(:plural)
             end
           end
         end
@@ -65,7 +65,9 @@ module Vertigo
           it { expect(response).to be_ok }
 
           it do
-            expect(response).to serialize_collection(Vertigo::Rtm.user_class.none).with(Vertigo::Rtm::UserSerializer)
+            expect(response).to serialize_resource(Vertigo::Rtm.user_class.none)
+              .with(Vertigo::Rtm::UserSerializer)
+              .as(:plural)
           end
         end
 
@@ -89,7 +91,7 @@ module Vertigo
           it { expect(response).to be_ok }
 
           it do
-            expect(response).to serialize_object(current_user).with(Vertigo::Rtm::UserSerializer)
+            expect(response).to serialize_resource(current_user).with(Vertigo::Rtm::UserSerializer).as(:singular)
           end
         end
 

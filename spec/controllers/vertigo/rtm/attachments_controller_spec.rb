@@ -25,8 +25,8 @@ module Vertigo
           it { expect(response).to be_ok }
 
           it do
-            expect(response).to serialize_collection(channel.attachments.paginate(page: 1))
-              .with(Vertigo::Rtm::AttachmentSerializer)
+            expect(response).to serialize_resource(channel.attachments.paginate(page: 1))
+              .with(Vertigo::Rtm::AttachmentSerializer).as(:plural)
           end
         end
 
@@ -47,8 +47,9 @@ module Vertigo
           it { expect(response).to be_ok }
 
           it do
-            expect(response).to serialize_object(attachment)
+            expect(response).to serialize_resource(attachment)
               .with(Vertigo::Rtm::AttachmentSerializer)
+              .as(:singular)
           end
         end
 

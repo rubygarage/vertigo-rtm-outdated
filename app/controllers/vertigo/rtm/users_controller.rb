@@ -4,7 +4,7 @@ module Vertigo
       def index
         @users = policy_scope(Vertigo::Rtm.user_class)
 
-        @users = Vertigo::Rtm::UsersSearchQuery.new(@users, params).call
+        @users = Vertigo::Rtm::UserQuery.new(@users, params).results
 
         render_resource @users, each_serializer: Vertigo::Rtm::UserSerializer
       end
