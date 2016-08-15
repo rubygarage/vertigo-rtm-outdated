@@ -2,6 +2,7 @@ require 'vertigo/rtm/engine'
 require 'active_model_serializers'
 require 'carrierwave'
 require 'pundit'
+require 'will_paginate'
 
 module Vertigo
   module Rtm

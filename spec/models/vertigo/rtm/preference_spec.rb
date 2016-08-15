@@ -5,6 +5,8 @@ module Vertigo
     RSpec.describe Preference, type: :model do
       subject(:preference) { create(:vertigo_rtm_preference) }
 
+      it_behaves_like :per_page
+
       context 'associations' do
         it { is_expected.to belong_to(:preferenceable) }
       end

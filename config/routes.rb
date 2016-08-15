@@ -6,7 +6,7 @@ Vertigo::Rtm::Engine.routes.draw do
   resources :conversations, only: :index do
     resource :preference, only: [:show, :update]
     resources :messages, only: [:index, :create, :update, :destroy]
-    resources :files, only: :index
+    resources :attachments, only: [:index, :show]
   end
 
   resources :channels, only: [:create, :show, :update] do

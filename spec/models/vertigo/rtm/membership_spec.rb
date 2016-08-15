@@ -5,6 +5,8 @@ module Vertigo
     RSpec.describe Membership, type: :model do
       subject(:membership) { create(:vertigo_rtm_membership) }
 
+      it_behaves_like :per_page
+
       context 'associations' do
         it do
           is_expected.to belong_to(:user)

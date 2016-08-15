@@ -5,11 +5,14 @@ module Vertigo
     RSpec.describe Conversation, type: :model do
       subject(:conversation) { create(:vertigo_rtm_conversation) }
 
+      it_behaves_like :per_page
+
       context 'associations' do
         it { is_expected.to belong_to(:creator).class_name(Vertigo::Rtm.user_class.to_s) }
         it { is_expected.to have_many(:memberships).dependent(:destroy).inverse_of(:conversation) }
         it { is_expected.to have_many(:members).through(:memberships).source(:user) }
         it { is_expected.to have_many(:messages).dependent(:destroy) }
+        it { is_expected.to have_many(:attachments).through(:messages) }
       end
 
       context 'validations' do

@@ -4,6 +4,8 @@ module Vertigo
       include Vertigo::Rtm::RaiseErrorOnSameEnumValue
 
       self.abstract_class = true
+
+      self.per_page = 100
     end
   end
 end

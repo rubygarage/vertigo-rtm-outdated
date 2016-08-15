@@ -7,6 +7,7 @@ module Vertigo
       has_many   :members, through: :memberships, source: :user
       belongs_to :creator, class_name: Vertigo::Rtm.user_class, foreign_key: :creator_id
       has_many   :messages, dependent: :destroy
+      has_many   :attachments, through: :messages
 
       validates :name, uniqueness: true, presence: true
 
