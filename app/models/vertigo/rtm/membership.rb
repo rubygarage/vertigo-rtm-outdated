@@ -11,7 +11,7 @@ module Vertigo
 
       after_commit :create_preference, on: :create
 
-      protected
+      private
 
       def mark_last_read_timestamp
         self.last_read_at = Time.zone.now

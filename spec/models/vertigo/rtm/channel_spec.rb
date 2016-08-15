@@ -44,7 +44,7 @@ module Vertigo
 
     context 'callbacks' do
       context 'after commit' do
-        context '#ensure_user_conversation_relation' do
+        context '#ensure_membership' do
           let(:user) { create(:user) }
           let(:channel) { build(:vertigo_rtm_channel, creator: user) }
 
@@ -55,14 +55,14 @@ module Vertigo
           end
 
           it 'is called after commit' do
-            allow(channel).to receive(:ensure_user_conversation_relation)
+            allow(channel).to receive(:ensure_membership)
 
             channel.valid?
-            expect(channel).not_to have_received(:ensure_user_conversation_relation)
+            expect(channel).not_to have_received(:ensure_membership)
             channel.run_callbacks(:save)
-            expect(channel).not_to have_received(:ensure_user_conversation_relation)
+            expect(channel).not_to have_received(:ensure_membership)
             channel.save
-            expect(channel).to have_received(:ensure_user_conversation_relation)
+            expect(channel).to have_received(:ensure_membership)
           end
         end
       end
