@@ -4,8 +4,10 @@ module Vertigo
       queue_as :default
 
       def perform(user)
-        ActionCable.server.broadcast \
-          'vertigo:rtm:appearance', render_resource(user, serializer: Vertigo::Rtm::UserSerializer)
+        ActionCable.server.broadcast(
+          'vertigo:rtm:appearance',
+          render_resource(user, serializer: Vertigo::Rtm::UserSerializer)
+        )
       end
     end
   end

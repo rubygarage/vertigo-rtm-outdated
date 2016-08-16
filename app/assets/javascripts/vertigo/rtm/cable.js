@@ -1,22 +1,11 @@
 //= require action_cable
 //= require_tree ./utils
 //= require_self
-//= require_tree ./channels
 
-namespace('Vertigo.Rtm.Client');
+namespace('Vertigo.Rtm.createConsumer');
 
 Vertigo.Rtm.createConsumer = function(options) {
-  Vertigo.Rtm.actionCable || (Vertigo.Rtm.actionCable = {});
-
+  Vertigo.Rtm.actionCable = Vertigo.Rtm.actionCable || {};
   Vertigo.Rtm.actionCable.cable = ActionCable.createConsumer(options);
-
-  return;
+  return Vertigo.Rtm.actionCable.cable;
 };
-
-Vertigo.Rtm.Client = (function () {
-  function Client (options) {
-    Vertigo.Rtm.createConsumer(options);
-  };
-
-  return Client;
-})();
