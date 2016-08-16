@@ -3,6 +3,7 @@ module Vertigo
     class EventChannel < Vertigo::Rtm::ApplicationCable::Channel
       def subscribed
         stream_from broadcasting(vertigo_rtm_current_user.id)
+        vertigo_rtm_current_user.online!
       end
 
       def unsubscribed

@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Create channel
+      </div>
+
+      <div class="panel-body">
+        <channel-form on-submit="$ctrl.createChannel">
+        </channel-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Conversations
+      </div>
+
+      <div class="panel-body">
+        <conversation-list selected-conversation="$ctrl.selectedConversation" conversations="$ctrl.conversations" on-conversation-click="$ctrl.selectConversation">
+        </conversation-list>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-8" ng-if="$ctrl.selectedConversation">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Chat
+      </div>
+
+      <div class="panel-body">
+        <message-list conversation="$ctrl.selectedConversation">
+        </message-list>
+      </div>
+    </div>
+  </div>
+</div>

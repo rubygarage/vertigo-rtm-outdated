@@ -1,0 +1,5 @@
+<div class="list-group">
+  <button type="button" class="list-group-item" ng-class="{ active: $ctrl.isSelectedConversation(conversation) }" ng-click="$ctrl.onConversationClick(conversation.id)" ng-repeat="conversation in $ctrl.conversations">
+    {{ conversation.attributes.name }}
+  </button>
+</div>

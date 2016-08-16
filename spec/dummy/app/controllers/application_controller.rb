@@ -3,6 +3,13 @@ class ApplicationController < ActionController::Base
 
   helper_method :signed_in?, :current_user
 
+  before_action do
+    # FIXME: for local development only
+    if Rails.env.development?
+      cookies.signed[:user_id] = User.find_by(name: 'seed_user').id
+    end
+  end
+
   protected
 
   def signed_in?
@@ -10,7 +17,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    return unless session[:user_id]
+    return unless cookies.signed[:user_id]
+
     @current_user ||= User.find_by_id(cookies.signed[:user_id]).tap do |user|
       setup_identificators(nil) if user.nil?
     end
