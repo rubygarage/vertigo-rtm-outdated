@@ -24,15 +24,15 @@ module Vertigo
       private
 
       def notify_on_create
-        Vertigo::Rtm::EventJob.perform_later('message.created', self)
+        Vertigo::Rtm::EventJob.perform_later('message.created', id)
       end
 
       def notify_on_update
-        Vertigo::Rtm::EventJob.perform_later('message.updated', self)
+        Vertigo::Rtm::EventJob.perform_later('message.updated', id)
       end
 
       def notify_on_delete
-        # Vertigo::Rtm::EventJob.perform_later('message.deleted', self)
+        Vertigo::Rtm::EventJob.perform_later('message.deleted', id)
       end
     end
   end

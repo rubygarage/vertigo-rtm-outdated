@@ -5,4 +5,6 @@
 
 $(document).ready(function() {
   var client = new Vertigo.Rtm.Client();
+
+  new Vertigo.Rtm.Channel.EventChannel();
 });

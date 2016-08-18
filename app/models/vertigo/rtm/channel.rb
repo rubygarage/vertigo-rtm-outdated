@@ -32,27 +32,27 @@ module Vertigo
       private
 
       def notify_on_rename
-        Vertigo::Rtm::EventJob.perform_later('channel.renamed', self)
+        Vertigo::Rtm::EventJob.perform_later('channel.renamed', id)
       end
 
       def notify_on_archive
-        Vertigo::Rtm::EventJob.perform_later('channel.archived', self)
+        Vertigo::Rtm::EventJob.perform_later('channel.archived', id)
       end
 
       def notify_on_unarchive
-        Vertigo::Rtm::EventJob.perform_later('channel.unarchived', self)
+        Vertigo::Rtm::EventJob.perform_later('channel.unarchived', id)
       end
 
       def notify_on_invite
-        Vertigo::Rtm::EventJob.perform_later('channel.joined', self)
+        Vertigo::Rtm::EventJob.perform_later('channel.joined', id)
       end
 
       def notify_on_leave
-        Vertigo::Rtm::EventJob.perform_later('channel.left', self)
+        Vertigo::Rtm::EventJob.perform_later('channel.left', id)
       end
 
       def notify_on_kick
-        Vertigo::Rtm::EventJob.perform_later('channel.kicked', self)
+        Vertigo::Rtm::EventJob.perform_later('channel.kicked', id)
       end
 
       def delete_membership!(user_id)

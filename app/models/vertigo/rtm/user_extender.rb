@@ -60,7 +60,7 @@ module Vertigo
         private
 
         def vertigo_rtm_notify_on_status_change
-          Vertigo::Rtm::EventJob.perform_later('user.status.changed', self)
+          Vertigo::Rtm::EventJob.perform_later('user.status.changed', id)
         end
 
         def vertigo_rtm_id_or_status_previously_changed?

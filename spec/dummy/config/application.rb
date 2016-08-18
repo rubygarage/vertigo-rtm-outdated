@@ -11,7 +11,7 @@ module Dummy
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    Rails.application.config.active_job.queue_adapter = :inline
+    # Rails.application.config.active_job.queue_adapter = :inline
     Rails.application.routes.default_url_options = { host: 'localhost:3000' }
   end
 end

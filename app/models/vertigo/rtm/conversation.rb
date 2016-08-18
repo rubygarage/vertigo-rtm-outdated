@@ -29,8 +29,8 @@ module Vertigo
       end
 
       def notify_on_create
-        namespace = self.class.name.demodulize.downcase
-        Vertigo::Rtm::EventJob.perform_later("#{namespace}.created", self)
+        resource = self.class.name.demodulize.downcase
+        Vertigo::Rtm::EventJob.perform_later("#{resource}.created", id)
       end
     end
   end
