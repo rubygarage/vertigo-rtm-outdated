@@ -2,8 +2,7 @@ module Vertigo
   module Rtm
     class Channel < Vertigo::Rtm::Conversation
       after_commit :notify_on_rename, on: :update, if: :name_previously_changed?
-      after_commit :notify_on_archive, on: :update, if: :archived?
-      after_commit :notify_on_unarchive, on: :update, if: :unarchived?
+      after_commit :notify_on_status_change, on: :update, if: :state_previously_changed?
 
       define_callbacks :invite, :leave, :kick
 
@@ -35,12 +34,8 @@ module Vertigo
         Vertigo::Rtm::EventJob.perform_later('channel.renamed', id)
       end
 
-      def notify_on_archive
-        Vertigo::Rtm::EventJob.perform_later('channel.archived', id)
-      end
-
-      def notify_on_unarchive
-        Vertigo::Rtm::EventJob.perform_later('channel.unarchived', id)
+      def notify_on_status_change
+        Vertigo::Rtm::EventJob.perform_later("channel.#{state}", id)
       end
 
       def notify_on_invite

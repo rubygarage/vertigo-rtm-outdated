@@ -23,7 +23,7 @@ module Vertigo
               scope: Vertigo::Rtm::ViewContext.new(recipient)
             }.merge(options)
 
-            Vertigo::Rtm::Notification::EventSource::Serializer.new(self, default_options)
+            Vertigo::Rtm::Notification::EventSource::Serializer.new(self, default_options).attributes
           end
         end
       end

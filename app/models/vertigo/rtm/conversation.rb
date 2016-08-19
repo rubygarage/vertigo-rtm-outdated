@@ -22,7 +22,7 @@ module Vertigo
         self.class.name.demodulize == 'Channel'
       end
 
-      protected
+      private
 
       def ensure_membership
         memberships.find_or_create_by(user_id: creator_id)

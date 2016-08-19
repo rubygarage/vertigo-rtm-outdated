@@ -11,7 +11,7 @@ module Vertigo
             Vertigo::Rtm::Conversation.find(payload.conversation_id)
                                       .members
                                       .vertigo_rtm_not_offline
-                                      .where(id: payload.creator_id)
+                                      .where.not(id: payload.creator_id)
           end
         end
       end
