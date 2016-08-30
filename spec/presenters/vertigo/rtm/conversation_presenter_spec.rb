@@ -9,6 +9,9 @@ module Vertigo
       subject(:subject) { described_class.new(user) }
 
       context '#id' do
+        it 'returns object id' do
+          expect(subject.id).to eq(subject.object_id)
+        end
       end
 
       context '#current_user' do
