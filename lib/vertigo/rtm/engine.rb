@@ -3,7 +3,7 @@ module Vertigo
     class Engine < ::Rails::Engine
       isolate_namespace Vertigo::Rtm
 
-      %w(app/channels app/jobs lib).each do |path|
+      %w(app/channels app/jobs app/presenters lib).each do |path|
         config.autoload_paths << root.join(path)
       end
 
