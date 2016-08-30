@@ -11,7 +11,8 @@ module Vertigo
 
       validates :name, uniqueness: true, presence: true
 
-      after_commit :ensure_user_conversation_relation, on: [:create]
+      after_commit :ensure_membership, on: :create
+      after_commit :notify_on_create, on: :create
 
       def group?
         self.class.name.demodulize == 'Group'
@@ -23,8 +24,13 @@ module Vertigo
 
       private
 
-      def ensure_user_conversation_relation
+      def ensure_membership
         memberships.find_or_create_by(user_id: creator_id)
+      end
+
+      def notify_on_create
+        resource = self.class.name.demodulize.downcase
+        Vertigo::Rtm::EventJob.perform_later("#{resource}.created", id)
       end
     end
   end

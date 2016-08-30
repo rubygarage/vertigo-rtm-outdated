@@ -29,17 +29,17 @@ module Vertigo
       end
 
       def leave
-        channel_user_relation(vertigo_rtm_current_user.id).destroy!
+        @channel.leave!(vertigo_rtm_current_user.id)
         head :ok
       end
 
       def kick
-        channel_user_relation(params[:member_id]).destroy!
+        @channel.kick!(params[:member_id])
         head :ok
       end
 
       def invite
-        @channel.memberships.create!(user_id: params[:member_id])
+        @channel.invite!(params[:member_id])
         render_resource @channel
       end
 
@@ -48,10 +48,6 @@ module Vertigo
       def set_and_authorize_channel
         @channel = Channel.find(params[:id])
         authorize @channel
-      end
-
-      def channel_user_relation(user_id)
-        @channel.memberships.find_by!(user_id: user_id)
       end
 
       def create_channel_params

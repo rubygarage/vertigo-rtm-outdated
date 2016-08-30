@@ -102,26 +102,39 @@ RSpec.describe User, type: :model do
     end
   end
 
+  context 'scopes' do
+    context '#vertigo_rtm_not_offline' do
+      let!(:offline) { create(:user, :offline) }
+      let!(:away) { create(:user, :away) }
+      let!(:dnd) { create(:user, :dnd) }
+      let!(:online) { create(:user, :online) }
+
+      it 'returns not offline users' do
+        expect(described_class.vertigo_rtm_not_offline).to match_array([away, dnd, online])
+      end
+    end
+  end
+
   context 'callbacks' do
     context 'after commit' do
-      context '#ensure_broadcast_appearance' do
+      context '#vertigo_rtm_notify_on_status_change' do
         context 'on create' do
           let(:user) { build(:user) }
 
           it 'queues the job' do
-            expect(Vertigo::Rtm::AppearanceBroadcastJob).to receive(:perform_later).with(user)
+            expect(Vertigo::Rtm::EventJob).to receive(:perform_later).with('user.status.changed', kind_of(Numeric))
             user.save
           end
 
           it 'is called after commit' do
-            allow(user).to receive(:ensure_broadcast_appearance)
+            allow(user).to receive(:vertigo_rtm_notify_on_status_change)
 
             user.valid?
-            expect(user).not_to have_received(:ensure_broadcast_appearance)
+            expect(user).not_to have_received(:vertigo_rtm_notify_on_status_change)
             user.run_callbacks(:save)
-            expect(user).not_to have_received(:ensure_broadcast_appearance)
+            expect(user).not_to have_received(:vertigo_rtm_notify_on_status_change)
             user.save
-            expect(user).to have_received(:ensure_broadcast_appearance)
+            expect(user).to have_received(:vertigo_rtm_notify_on_status_change)
           end
         end
 
@@ -129,25 +142,30 @@ RSpec.describe User, type: :model do
           let(:user) { create(:user) }
 
           it 'queues the job' do
-            expect(Vertigo::Rtm::AppearanceBroadcastJob).to receive(:perform_later).with(user)
-            user.away!
+            expect(Vertigo::Rtm::EventJob).to receive(:perform_later).with('user.status.changed', user.id)
+
+            user.online!
           end
 
           it 'does not queue the job' do
-            expect(Vertigo::Rtm::AppearanceBroadcastJob).not_to receive(:perform_later).with(user)
-            user.update_attributes(name: Faker::Internet.user_name)
+            expect(Vertigo::Rtm::EventJob).not_to receive(:perform_later).with('user.status.changed', user.id)
+
+            user.offline!
           end
 
           it 'is called after commit' do
-            user.vertigo_rtm_status = :away
-            allow(user).to receive(:ensure_broadcast_appearance)
+            allow(user).to receive(:vertigo_rtm_notify_on_status_change)
 
             user.valid?
-            expect(user).not_to have_received(:ensure_broadcast_appearance)
+            expect(user).not_to have_received(:vertigo_rtm_notify_on_status_change)
             user.run_callbacks(:save)
-            expect(user).not_to have_received(:ensure_broadcast_appearance)
+            expect(user).not_to have_received(:vertigo_rtm_notify_on_status_change)
             user.save
-            expect(user).to have_received(:ensure_broadcast_appearance)
+            expect(user).not_to have_received(:vertigo_rtm_notify_on_status_change)
+            user.update(Vertigo::Rtm.user_name_column => Faker::Internet.user_name)
+            expect(user).not_to have_received(:vertigo_rtm_notify_on_status_change)
+            user.away!
+            expect(user).to have_received(:vertigo_rtm_notify_on_status_change)
           end
         end
       end

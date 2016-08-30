@@ -53,15 +53,17 @@ module Vertigo
                  through: :vertigo_rtm_messages,
                  class_name: 'Vertigo::Rtm::Attachment'
 
-        after_commit :ensure_broadcast_appearance, if: :id_or_status_previously_changed?
+        after_commit :vertigo_rtm_notify_on_status_change, if: :vertigo_rtm_id_or_status_previously_changed?
 
-        protected
+        scope :vertigo_rtm_not_offline, -> { where.not(vertigo_rtm_status: :offline) }
 
-        def ensure_broadcast_appearance
-          Vertigo::Rtm::AppearanceBroadcastJob.perform_later(self)
+        private
+
+        def vertigo_rtm_notify_on_status_change
+          Vertigo::Rtm::EventJob.perform_later('user.status.changed', id)
         end
 
-        def id_or_status_previously_changed?
+        def vertigo_rtm_id_or_status_previously_changed?
           id_previously_changed? || vertigo_rtm_status_previously_changed?
         end
       end

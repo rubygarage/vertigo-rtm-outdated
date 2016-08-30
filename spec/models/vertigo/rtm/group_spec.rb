@@ -74,29 +74,50 @@ module Vertigo
         include_context :changeable_enums
         it_behaves_like :it_has_enums_with_raising_exceptions, :state
       end
-    end
 
-    context 'callbacks' do
-      context 'after commit' do
-        context '#ensure_user_conversation_relation' do
-          let(:user) { create(:user) }
-          let(:group) { build(:vertigo_rtm_group, creator: user) }
+      context 'callbacks' do
+        context 'after commit' do
+          context '#ensure_membership' do
+            let(:user) { create(:user) }
+            let(:group) { build(:vertigo_rtm_group, creator: user) }
 
-          it 'creates user_conversation relation for creator' do
-            group.save
+            it 'creates user_conversation relation for creator' do
+              group.save
 
-            expect(group.reload.members_count).to eq(1)
+              expect(group.reload.members_count).to eq(1)
+            end
+
+            it 'is called after commit' do
+              allow(group).to receive(:ensure_membership)
+
+              group.valid?
+              expect(group).not_to have_received(:ensure_membership)
+              group.run_callbacks(:save)
+              expect(group).not_to have_received(:ensure_membership)
+              group.save
+              expect(group).to have_received(:ensure_membership)
+            end
           end
 
-          it 'is called after commit' do
-            allow(group).to receive(:ensure_user_conversation_relation)
+          context '#notify_on_create' do
+            let(:user) { create(:user) }
+            let!(:group) { build(:vertigo_rtm_group, creator: user) }
 
-            group.valid?
-            expect(group).not_to have_received(:ensure_user_conversation_relation)
-            group.run_callbacks(:save)
-            expect(group).not_to have_received(:ensure_user_conversation_relation)
-            group.save
-            expect(group).to have_received(:ensure_user_conversation_relation)
+            it 'queues the job' do
+              expect(Vertigo::Rtm::EventJob).to receive(:perform_later).with('group.created', kind_of(Numeric))
+              group.save
+            end
+
+            it 'is called after commit' do
+              allow(group).to receive(:notify_on_create)
+
+              group.valid?
+              expect(group).not_to have_received(:notify_on_create)
+              group.run_callbacks(:save)
+              expect(group).not_to have_received(:notify_on_create)
+              group.save
+              expect(group).to have_received(:notify_on_create)
+            end
           end
         end
       end

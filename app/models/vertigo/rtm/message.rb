@@ -16,6 +16,24 @@ module Vertigo
       end)
 
       accepts_nested_attributes_for :attachments
+
+      after_commit :notify_on_create, on: :create
+      after_commit :notify_on_update, on: :update
+      after_commit :notify_on_delete, on: :destroy
+
+      private
+
+      def notify_on_create
+        Vertigo::Rtm::EventJob.perform_later('message.created', id)
+      end
+
+      def notify_on_update
+        Vertigo::Rtm::EventJob.perform_later('message.updated', id)
+      end
+
+      def notify_on_delete
+        Vertigo::Rtm::EventJob.perform_later('message.deleted', id)
+      end
     end
   end
 end
