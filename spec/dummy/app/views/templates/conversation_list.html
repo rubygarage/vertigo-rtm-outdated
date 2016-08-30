@@ -1,5 +1,8 @@
-<div class="list-group">
-  <button type="button" class="list-group-item" ng-class="{ active: $ctrl.isSelectedConversation(conversation) }" ng-click="$ctrl.onConversationClick(conversation.id)" ng-repeat="conversation in $ctrl.conversations">
-    {{ conversation.attributes.name }}
-  </button>
+<div class="panel panel-default">
+  <div class="panel-heading">{{ $ctrl.type }}</div>
+  <ul class="list-group">
+    <li class="list-group-item" ng-class="{ active: $ctrl.isSelectedConversation(conversation) }" ng-click="$ctrl.onConversationClick(conversation.id)" ng-repeat="conversation in $ctrl.conversations">
+      {{ conversation.attributes.name }}
+    </li>
+  </ul>
 </div>

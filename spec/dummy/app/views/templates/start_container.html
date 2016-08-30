@@ -1,0 +1,99 @@
+<div class="col-md-2">
+  <sidebar-header user="$ctrl.currentUser"></sidebar-header>
+  <channel-list collection="$ctrl.channels" selected-conversation="$ctrl.selectedConversation" on-conversation-click="$ctrl.selectConversation"></channel-list>
+  <group-list collection="$ctrl.groups" selected-conversation="$ctrl.selectedConversation" on-conversation-click="$ctrl.selectConversation"></group-list>
+</div>
+
+<div class="col-md-10" ng-if="$ctrl.selectedConversation">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{ $ctrl.selectedConversation.attributes.name }}
+      <span class="label label-default">
+        {{ $ctrl.selectedConversation.attributes.membersCount}}
+        Members
+      </span>
+      <div class="pull-right">
+        <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <message-list conversation="$ctrl.selectedConversation" users="$ctrl.users">
+      </message-list>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Message {{ $ctrl.selectedConversation.attributes.name }}">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button">
+                <i class="glyphicon glyphicon glyphicon-plus"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="col-md-2">
+  <div class="row">
+    <div class="col-md-12">
+      <conversation-list selected-conversation="$ctrl.selectedConversation" conversations="$ctrl.channels" on-conversation-click="$ctrl.selectConversation" type="Channels">
+      </conversation-list>
+    </div>
+
+    <div class="col-md-12">
+      <conversation-list selected-conversation="$ctrl.selectedConversation" conversations="$ctrl.groups" on-conversation-click="$ctrl.selectConversation"  type="Groups">
+      </conversation-list>
+    </div>
+  </div>
+</div>
+<div class="col-md-10">
+</div> -->
+
+<!-- <div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Create channel
+      </div>
+
+      <div class="panel-body">
+        <channel-form on-submit="$ctrl.createChannel">
+        </channel-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Conversations
+      </div>
+
+      <div class="panel-body">
+        <conversation-list selected-conversation="$ctrl.selectedConversation" conversations="$ctrl.conversations" on-conversation-click="$ctrl.selectConversation">
+        </conversation-list>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-8" ng-if="$ctrl.selectedConversation">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Chat
+      </div>
+
+      <div class="panel-body">
+        <message-list conversation="$ctrl.selectedConversation">
+        </message-list>
+      </div>
+    </div>
+  </div>
+</div>
+ -->

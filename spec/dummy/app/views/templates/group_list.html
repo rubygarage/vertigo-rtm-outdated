@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">Groups</div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="group in $ctrl.collection" ng-click="$ctrl.onConversationClick(group.id)" ng-class="{ active: $ctrl.isSelectedConversation(group) }">
+          {{ group.attributes.name }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

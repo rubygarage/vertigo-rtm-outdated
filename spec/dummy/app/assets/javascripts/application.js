@@ -14,56 +14,70 @@ function run() {
     return new Vertigo.Rtm.Client('/vertigo-rtm');
   }]);
 
-  app.component('channelForm', {
-    templateUrl: 'templates/channel_form.html',
-    bindings: {
-      onSubmit: '='
-    },
-    controller: [function() {
-      this.channel = {};
-    }]
-  });
-
-  app.component('chatContainer', {
-    templateUrl: 'templates/chat_container.html',
+  app.component('startContainer', {
+    templateUrl: 'templates/start_container.html',
     controller: ['vertigoRtmClient', '$scope', function(vertigoRtmClient, $scope) {
       var controller = this;
 
-      controller.conversations = [];
-      controller.selectedConversation = null;
-      controller.selectConversation = selectConversation;
-      controller.createChannel = createChannel;
+      controller.currentUser = null;
+      controller.channels = [];
+      controller.groups = [];
 
-      function createChannel(channel) {
-        return vertigoRtmClient.channels.create(channel);
-      }
+      controller.selectedConversation = null;
+
+      vertigoRtmClient.start().then(function(data) {
+        return $scope.$apply(function() {
+          controller.currentUser = data.currentUser;
+          controller.channels = data.channels;
+          controller.groups = data.groups;
+          controller.conversations = [data.channels[0], data.groups[0]];
+          controller.users = data.users;
+        });
+      });
+
+      controller.selectConversation = selectConversation;
 
       function selectConversation(id) {
         return controller.selectedConversation = controller.conversations.filter(function(a) {
           return a.id == id;
         })[0];
       }
+      // controller.createChannel = createChannel;
 
-      vertigoRtmClient.conversations.all().then(function(data) {
-        return $scope.$apply(function() {
-          return controller.conversations = data;
-        });
-      });
+      // function createChannel(channel) {
+      //   return vertigoRtmClient.channels.create(channel);
+      // }
 
-      vertigoRtmClient.channels.on('created', function(data) {
-        return $scope.$apply(function() {
-          return controller.conversations.push(data);
-        });
-      });
+      // function selectConversation(id) {
+      //   return controller.selectedConversation = controller.conversations.filter(function(a) {
+      //     return a.id == id;
+      //   })[0];
+      // }
+
+      // vertigoRtmClient.channels.on('created', function(data) {
+      //   return $scope.$apply(function() {
+      //     return controller.conversations.push(data);
+      //   });
+      // });
     }]
   });
 
-  app.component('conversationList', {
-    templateUrl: 'templates/conversation_list.html',
+  app.component('sidebarHeader', {
+    templateUrl: 'templates/sidebar_header.html',
     bindings: {
-      conversations: '<',
-      selectedConversation: '<',
-      onConversationClick: '<'
+      user: '<'
+    },
+    controller: [function() {
+      var controller = this;
+    }]
+  });
+
+  app.component('channelList', {
+    templateUrl: 'templates/channel_list.html',
+    bindings: {
+      collection: '<',
+      onConversationClick: '<',
+      selectedConversation: '<'
     },
     controller: [function() {
       var controller = this;
@@ -76,15 +90,79 @@ function run() {
     }]
   });
 
+  app.component('channelDetails', {
+    templateUrl: 'templates/channel_details.html',
+    bindings: {
+      conversation: '<',
+    },
+    controller: [function() {
+      var controller = this;
+    }]
+  });
+
+  app.component('groupList', {
+    templateUrl: 'templates/group_list.html',
+    bindings: {
+      collection: '<',
+      onConversationClick: '<',
+      selectedConversation: '<'
+    },
+    controller: [function() {
+      var controller = this;
+
+      controller.isSelectedConversation = isSelectedConversation;
+
+      function isSelectedConversation(conversation) {
+        return controller.selectedConversation === conversation;
+      }
+    }]
+  });
+
+  // app.component('channelForm', {
+  //   templateUrl: 'templates/channel_form.html',
+  //   bindings: {
+  //     onSubmit: '='
+  //   },
+  //   controller: [function() {
+  //     this.channel = {};
+  //   }]
+  // });
+
+  // app.component('conversationList', {
+  //   templateUrl: 'templates/conversation_list.html',
+  //   bindings: {
+  //     conversations: '<',
+  //     selectedConversation: '<',
+  //     onConversationClick: '<',
+  //     type: '<'
+  //   },
+  //   controller: [function() {
+  //     var controller = this;
+
+  //     controller.isSelectedConversation = isSelectedConversation;
+
+  //     function isSelectedConversation(conversation) {
+  //       return controller.selectedConversation === conversation;
+  //     }
+  //   }]
+  // });
+
   app.component('messageList', {
     templateUrl: 'templates/message_list.html',
     bindings: {
-      conversation: '<'
+      conversation: '<',
+      users: '<'
     },
     controller: ['vertigoRtmClient', '$scope', function(vertigoRtmClient, $scope) {
       var controller = this;
 
       controller.messages = [];
+
+      controller.msgOwnerName = function(user_id) {
+        return controller.users.filter(function(a) {
+          return a.id == user_id;
+        })[0].attributes.name;
+      }
 
       controller.$onChanges = function() {
         return vertigoRtmClient.messages.all({

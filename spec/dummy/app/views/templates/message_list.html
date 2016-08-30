@@ -1,5 +1,18 @@
-<ul class="list-group">
-  <li class="list-group-item" ng-repeat="message in $ctrl.messages">
+<div class="media" ng-repeat="message in $ctrl.messages">
+  <div class="media-left media-middle">
+    <a href="#">
+      <img class="media-object" style="height: 70px;" src="https://s-media-cache-ak0.pinimg.com/236x/4c/23/76/4c23765ce1da195f6688aa4a6efa8da2.jpg" alt="...">
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">
+      <h5>
+        <a href="#">
+          {{ $ctrl.msgOwnerName(message.attributes.creatorId) }}
+        </a>
+        <small>{{ message.attributes.createdAt }}</small>
+      </h5>
+    </h4>
     {{ message.attributes.text }}
-  </li>
-</ul>
+  </div>
+</div>
