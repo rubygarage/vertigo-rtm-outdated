@@ -6,7 +6,15 @@ Vertigo.Rtm.RestClient = (function() {
   }
 
   RestClient.prototype.getConversations = function() {
-    return $.get(this.mountPath + '/conversations').then(getData);
+    return $.get(this.mountPath + '/conversations').then(function(response) {
+      // to presenter
+      return {
+        currentUser: response.included[0],
+        channels: [response.included[1]],
+        groups: [response.included[2]],
+        users: [response.included[0]]
+      }
+    });
   };
 
   RestClient.prototype.getConversationMessages = function(id) {

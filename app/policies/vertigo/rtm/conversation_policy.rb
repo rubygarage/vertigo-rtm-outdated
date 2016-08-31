@@ -30,13 +30,6 @@ module Vertigo
       def member_or_creator?
         creator? || record.members.exists?(user.id)
       end
-
-      class Scope < Scope
-        def resolve
-          # TODO: find out how to use input scope
-          user.vertigo_rtm_conversations
-        end
-      end
     end
   end
 end

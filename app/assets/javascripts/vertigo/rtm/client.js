@@ -10,6 +10,10 @@ Vertigo.Rtm.Client = (function () {
     this.channels = new Vertigo.Rtm.Channels(eventChannel, restClient);
     this.messages = new Vertigo.Rtm.Messages(eventChannel, restClient);
 
+    this.start = function() {
+      return restClient.getConversations();
+    };
+
     eventChannel.on('connected', function() { console.log('connected') });
     eventChannel.on('disconnected', function() { console.log('disconnected') });
     eventChannel.on('received', function(data) { console.log('received', data) });

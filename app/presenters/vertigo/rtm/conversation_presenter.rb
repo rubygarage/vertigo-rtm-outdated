@@ -13,6 +13,10 @@ module Vertigo
         @_model_name ||= ::ActiveModel::Name.new(self)
       end
 
+      def users
+        Vertigo::Rtm.user_class.all
+      end
+
       alias id object_id
       alias read_attribute_for_serialization send
     end
